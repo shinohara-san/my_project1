@@ -11,10 +11,13 @@ class PostViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "閉じる", style: .done, target: self, action: #selector(didTapClose))
     }
     
+    @objc private func didTapClose(){
+        dismiss(animated: true, completion: nil)
+    }
 
 
 }
