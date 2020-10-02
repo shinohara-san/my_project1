@@ -8,11 +8,10 @@
 import UIKit
 
 class TimelineViewController: UIViewController {
-
+    
     private let tableView: UITableView = {
-       let tableView = UITableView()
-        tableView.register(UITableViewCell.self,
-                           forCellReuseIdentifier: "cell")
+        let tableView = UITableView()
+        tableView.register(PostTableViewCell.nib(), forCellReuseIdentifier: PostTableViewCell.identifier)
         return tableView
     }()
     
@@ -28,7 +27,7 @@ class TimelineViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapPost), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -39,6 +38,7 @@ class TimelineViewController: UIViewController {
         }
         tableView.delegate = self
         tableView.dataSource = self
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,13 +52,11 @@ class TimelineViewController: UIViewController {
     }
     
     @objc private func didTapPost(){
-        let vc = PostViewController()
+        let vc = storyboard?.instantiateViewController(identifier: "postVC") as! PostViewController
         let navVC = UINavigationController(rootViewController: vc)
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true)
     }
-
-
 }
 
 extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
@@ -67,8 +65,26 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "timeline"
+        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
+                                                 for: indexPath) as! PostTableViewCell
+        cell.configure(name: "しのはら", genre: "好きな人について", imageName: "", comment: "その後、アメリカとソ連漂取らなくてはなりません。", date: "2020/10/01")
+        cell.delegate = self
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        tableView.estimatedRowHeight = 100
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension TimelineViewController: PostTableViewCellDelegate {
+    func moveToDetail() {
+        let vc = PostDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

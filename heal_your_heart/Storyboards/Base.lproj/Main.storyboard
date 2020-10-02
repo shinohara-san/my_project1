@@ -117,6 +117,52 @@
             </objects>
             <point key="canvasLocation" x="1409" y="721"/>
         </scene>
+        <!--Post View Controller-->
+        <scene sceneID="aL9-C0-Iq8">
+            <objects>
+                <viewController storyboardIdentifier="postVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yS5-ld-fEw" customClass="PostViewController" customModule="heal_your_heart" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RRj-9e-lCD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wMq-km-ksX">
+                                <rect key="frame" x="20" y="90" width="374" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="HzK-28-dLl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="相談カテゴリー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Wl-5V-zi2">
+                                <rect key="frame" x="20" y="59" width="374" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="o30-hv-PAq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wZj-Ss-QWp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="8Wl-5V-zi2" firstAttribute="leading" secondItem="wZj-Ss-QWp" secondAttribute="leading" constant="20" id="1G6-EN-HbM"/>
+                            <constraint firstItem="8Wl-5V-zi2" firstAttribute="top" secondItem="wZj-Ss-QWp" secondAttribute="top" constant="15" id="B55-vD-xyt"/>
+                            <constraint firstItem="wZj-Ss-QWp" firstAttribute="trailing" secondItem="8Wl-5V-zi2" secondAttribute="trailing" constant="20" id="FM1-Yq-rf9"/>
+                            <constraint firstItem="wMq-km-ksX" firstAttribute="leading" secondItem="wZj-Ss-QWp" secondAttribute="leading" constant="20" id="Wru-kZ-gBZ"/>
+                            <constraint firstItem="wMq-km-ksX" firstAttribute="top" secondItem="8Wl-5V-zi2" secondAttribute="bottom" constant="10" id="ZPj-6C-c1Z"/>
+                            <constraint firstItem="wZj-Ss-QWp" firstAttribute="trailing" secondItem="wMq-km-ksX" secondAttribute="trailing" constant="20" id="u6P-lr-tud"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="UPR-Mn-xVb"/>
+                    <connections>
+                        <outlet property="genreTextField" destination="wMq-km-ksX" id="Jww-Ea-PoG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hg2-og-Q2u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1104.3478260869565" y="2243.9732142857142"/>
+        </scene>
         <!--Notification View Controller-->
         <scene sceneID="noI-6a-Fgk">
             <objects>
