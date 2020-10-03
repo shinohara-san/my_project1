@@ -16,15 +16,7 @@ class PostViewController: UIViewController {
     
     @IBOutlet weak var genreTextField: UITextField!
     @IBOutlet weak var userImageView: UIImageView!
-    
-    private let postButton: UIButton = {
-       let button = UIButton()
-        button.setTitle("投稿する", for: .normal)
-        button.backgroundColor = .link
-        button.layer.cornerRadius = 10
-        button.tintColor = .white
-        return button
-    }()
+    @IBOutlet weak var commentTextView: UITextView!
     
     private let pickerView = UIPickerView()
     
@@ -33,6 +25,9 @@ class PostViewController: UIViewController {
         
         genreTextField.delegate = self
         userImageView.contentMode = .scaleAspectFit
+        
+        commentTextView.delegate = self
+        commentTextView.becomeFirstResponder()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "キャンセル",
                                                             style: .done,
@@ -64,11 +59,19 @@ class PostViewController: UIViewController {
     }
     
     @objc private func didTapPost(){
-        //投稿する処理
+        let ac = UIAlertController(title: "投稿しますか？", message: "", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "投稿する", style: .default, handler: { [weak self](_) in
+            //投稿する処理
+            self?.dismiss(animated: true, completion: nil) //成功時
+        }))
+        ac.addAction(UIAlertAction(title: "入力を続ける", style: .default))
+        present(ac, animated: true, completion: nil)
+        
     }
     
     @objc func done() {
         genreTextField.endEditing(true)
+        commentTextView.becomeFirstResponder()
     }
     
     private func setUpToolbar(){
@@ -121,5 +124,9 @@ extension PostViewController: UIPickerViewDelegate, UIPickerViewDataSource{
         genreTextField.text = dataList[row]
         
     }
+    
+}
+
+extension PostViewController: UITextViewDelegate {
     
 }
