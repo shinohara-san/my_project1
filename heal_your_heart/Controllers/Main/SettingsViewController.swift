@@ -85,6 +85,39 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath.section {
+        case 0:
+            print("To profile")
+            break
+        case 1:
+            switch indexPath.row {
+            case 0:
+                print("To terms of use")
+                break
+            case 1:
+                print("To privacy policy")
+                break
+            case 2:
+                print("Log Out")
+                let ac = UIAlertController(title: "ログアウト", message: "ログアウトしますか？", preferredStyle: .actionSheet)
+                ac.addAction(UIAlertAction(title: "ログアウトする", style: .destructive, handler: { [weak self] _ in
+                    if let vc = self?.storyboard?.instantiateViewController(identifier: "loginVC") as? LoginViewController {
+                        vc.modalPresentationStyle = .fullScreen
+                        self?.present(vc, animated: false, completion: nil)
+                    }
+                    
+                }))
+                ac.addAction(UIAlertAction(title: "ログアウトしない", style: .default, handler: nil))
+                present(ac, animated: true, completion: nil)
+                break
+            default:
+                fatalError()
+                break
+            }
+        default:
+            fatalError()
+            break
+        }
     }
 }
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		954D2F2425243E0200405DEC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2325243E0200405DEC /* SearchViewController.swift */; };
 		954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2825243E1700405DEC /* NotificationViewController.swift */; };
 		954D2F372524441B00405DEC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F362524441B00405DEC /* Extensions.swift */; };
+		95A285FC25287971003FBE46 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A285FB25287971003FBE46 /* LoginViewController.swift */; };
+		95A286012528797C003FBE46 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A286002528797C003FBE46 /* RegisterViewController.swift */; };
 		95C6BC5325242340008B28AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC5225242340008B28AD /* AppDelegate.swift */; };
 		95C6BC5525242340008B28AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC5425242340008B28AD /* SceneDelegate.swift */; };
 		95C6BC5A25242340008B28AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95C6BC5825242340008B28AD /* Main.storyboard */; };
@@ -20,7 +22,6 @@
 		95C6BC5F25242343008B28AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95C6BC5D25242343008B28AD /* LaunchScreen.storyboard */; };
 		95C6BC6A25242343008B28AD /* heal_your_heartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC6925242343008B28AD /* heal_your_heartTests.swift */; };
 		95C6BC7525242343008B28AD /* heal_your_heartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC7425242343008B28AD /* heal_your_heartUITests.swift */; };
-		95C6BC9725242427008B28AD /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC9625242427008B28AD /* LoginRegisterViewController.swift */; };
 		95C6BCA1252424F8008B28AD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BCA0252424F8008B28AD /* SettingsViewController.swift */; };
 		95C6BCAA2524251A008B28AD /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BCA92524251A008B28AD /* PostViewController.swift */; };
 		95D377F72526026E00D22385 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D377F52526026E00D22385 /* PostTableViewCell.swift */; };
@@ -65,6 +66,8 @@
 		954D2F2325243E0200405DEC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		954D2F2825243E1700405DEC /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		954D2F362524441B00405DEC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		95A285FB25287971003FBE46 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		95A286002528797C003FBE46 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		95C6BC4F25242340008B28AD /* heal_your_heart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = heal_your_heart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95C6BC5225242340008B28AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95C6BC5425242340008B28AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,7 +81,6 @@
 		95C6BC7025242343008B28AD /* heal_your_heartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = heal_your_heartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95C6BC7425242343008B28AD /* heal_your_heartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = heal_your_heartUITests.swift; sourceTree = "<group>"; };
 		95C6BC7625242343008B28AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95C6BC9625242427008B28AD /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewController.swift; sourceTree = "<group>"; };
 		95C6BCA0252424F8008B28AD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		95C6BCA92524251A008B28AD /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		95D377F52526026E00D22385 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
@@ -135,7 +137,6 @@
 				43E3831173051B0A94C68F99 /* Pods-heal_your_heartTests.debug.xcconfig */,
 				68813CFDD747D858E71EEB49 /* Pods-heal_your_heartTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -171,6 +172,15 @@
 				95D377FC2526E85800D22385 /* PostDetailViewController.swift */,
 			);
 			path = Action;
+			sourceTree = "<group>";
+		};
+		95A2860525287983003FBE46 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				95A285FB25287971003FBE46 /* LoginViewController.swift */,
+				95A286002528797C003FBE46 /* RegisterViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		95C6BC462524233F008B28AD = {
@@ -250,8 +260,8 @@
 			isa = PBXGroup;
 			children = (
 				95649CE0252746670047C4C0 /* Action */,
-				95C6BC9625242427008B28AD /* LoginRegisterViewController.swift */,
 				95C6BCA525242501008B28AD /* Main */,
+				95A2860525287983003FBE46 /* Onboarding */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -524,13 +534,14 @@
 				95D378062526EB2300D22385 /* Post.swift in Sources */,
 				95F9961325273C27008FA3E5 /* NotificationTableViewCell.swift in Sources */,
 				95D377FD2526E85800D22385 /* PostDetailViewController.swift in Sources */,
-				95C6BC9725242427008B28AD /* LoginRegisterViewController.swift in Sources */,
 				95C6BC5325242340008B28AD /* AppDelegate.swift in Sources */,
 				954D2F372524441B00405DEC /* Extensions.swift in Sources */,
 				95C6BC5525242340008B28AD /* SceneDelegate.swift in Sources */,
 				95D377F72526026E00D22385 /* PostTableViewCell.swift in Sources */,
 				95F9960D25273949008FA3E5 /* Comment.swift in Sources */,
 				95C6BCA1252424F8008B28AD /* SettingsViewController.swift in Sources */,
+				95A285FC25287971003FBE46 /* LoginViewController.swift in Sources */,
+				95A286012528797C003FBE46 /* RegisterViewController.swift in Sources */,
 				95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */,
 				954D2F092524283100405DEC /* TimelineViewController.swift in Sources */,
 				95FE247C2526F36E00061EBA /* PostDetailTableViewCell.swift in Sources */,
