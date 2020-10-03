@@ -7,6 +7,17 @@ target 'heal_your_heart' do
 
   # Pods for heal_your_heart
   pod 'KMPlaceholderTextView'
+  pod 'JGProgressHUD'
+  pod 'SDWebImage'
+  pod 'LicensePlist'
+
+  #Firebase
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
+
+  
 
   target 'heal_your_heartTests' do
     inherit! :search_paths
