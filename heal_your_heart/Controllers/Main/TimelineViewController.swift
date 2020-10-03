@@ -10,7 +10,7 @@ import UIKit
 class TimelineViewController: UIViewController {
     
     private let tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(PostTableViewCell.nib(),
                            forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.isHidden = false
@@ -27,7 +27,7 @@ class TimelineViewController: UIViewController {
     private let postButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.backgroundColor = UIColor.systemBlue
+        button.backgroundColor = UIColor.systemYellow
         button.imageView?.tintColor = .white
         button.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         button.layer.shadowColor = UIColor.black.cgColor
@@ -95,6 +95,14 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
     }
 }
 

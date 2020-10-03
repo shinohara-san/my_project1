@@ -1,0 +1,6 @@
+framework module Pods_heal_your_heart {
+  umbrella header "Pods-heal_your_heart-umbrella.h"
+
+  export *
+  module * { export * }
+}

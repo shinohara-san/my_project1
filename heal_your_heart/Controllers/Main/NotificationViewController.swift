@@ -10,7 +10,7 @@ import UIKit
 class NotificationViewController: UIViewController {
     
     private let tableView: UITableView = {
-       let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(NotificationTableViewCell.nib(),
                            forCellReuseIdentifier: NotificationTableViewCell.identifier)
         return tableView
@@ -48,6 +48,14 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
     }
 }
 

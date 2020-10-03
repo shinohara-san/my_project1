@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().barTintColor = .systemYellow
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        
+        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().barTintColor = .systemYellow
+        
         return true
     }
 
