@@ -11,11 +11,20 @@ class TimelineViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PostTableViewCell.nib(), forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.register(PostTableViewCell.nib(),
+                           forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.isHidden = false
         return tableView
     }()
     
-    let postButton: UIButton = {
+    private let noPostLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No Post"
+        label.isHidden = true
+        return label
+    }()
+    
+    private let postButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.backgroundColor = UIColor.systemBlue
@@ -32,7 +41,7 @@ class TimelineViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "タイムライン"
-        let views = [tableView, postButton]
+        let views = [tableView, postButton, noPostLabel]
         for x in views {
             view.addSubview(x)
         }
@@ -44,10 +53,17 @@ class TimelineViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        
+        noPostLabel.frame = CGRect(x: (view.width - 50) / 2,
+                                   y: (view.height - 25) / 2,
+                                   width: 100,
+                                   height: 50)
+        
         postButton.frame = CGRect(x: UIScreen.main.bounds.size.width*8/10,
                                   y: UIScreen.main.bounds.size.height*4/5,
                                   width: UIScreen.main.bounds.size.width/6,
                                   height: UIScreen.main.bounds.size.width/6)
+        
         postButton.layer.cornerRadius = postButton.frame.width/2
     }
     
@@ -67,7 +83,7 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        cell.configure(name: "しのはら", genre: "好きな人について", imageName: "", comment: "その後、アメリカとソ連漂取らなくてはなりません。", date: "2020/10/01")
+        cell.configure(name: "しのはら", genre: "人生について", imageName: "", comment: "その後、アメリカとソ連漂取らなくてはなりません。", date: "2020/10/01")
         cell.delegate = self
         return cell
     }

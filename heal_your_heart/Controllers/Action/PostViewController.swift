@@ -15,30 +15,40 @@ class PostViewController: UIViewController {
     ]
     
     @IBOutlet weak var genreTextField: UITextField!
+    @IBOutlet weak var userImageView: UIImageView!
+    
+    private let postButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("投稿する", for: .normal)
+        button.backgroundColor = .link
+        button.layer.cornerRadius = 10
+        button.tintColor = .white
+        return button
+    }()
     
     private let pickerView = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "新規投稿"
-        genreTextField.delegate = self
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "閉じる",
+        genreTextField.delegate = self
+        userImageView.contentMode = .scaleAspectFit
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "キャンセル",
                                                             style: .done,
                                                             target: self,
                                                             action:#selector(didTapClose))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "投稿する",
+                                                            style: .done,
+                                                            target: self,
+                                                            action:#selector(didTapPost))
         
         genreTextField.borderStyle = .roundedRect
         
         setUpToolbar()
         setUpPickerView()
-        
-        // UITextField編集時に表示されるキーボードをpickerViewに置き換える
-        let vi = UIView(frame: pickerView.bounds)
-        vi.backgroundColor = UIColor.white
-        vi.addSubview(pickerView)
-        
-        genreTextField.inputView = vi
+
     }
     
     @objc private func didTapClose(){
@@ -53,13 +63,17 @@ class PostViewController: UIViewController {
         
     }
     
+    @objc private func didTapPost(){
+        //投稿する処理
+    }
+    
     @objc func done() {
         genreTextField.endEditing(true)
     }
     
     private func setUpToolbar(){
-        //DONEボタンの設定・配置
-        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 35))
+        
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
         let spacelItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
         toolbar.setItems([spacelItem, doneItem], animated: true)
@@ -68,10 +82,17 @@ class PostViewController: UIViewController {
     }
     
     private func setUpPickerView(){
-        pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
+        pickerView.frame = CGRect(x: 0, y: 0,
+                                  width: UIScreen.main.bounds.size.width,
+                                  height: pickerView.bounds.size.height)
         pickerView.delegate = self
         pickerView.dataSource = self
         
+        let customPicker = UIView(frame: pickerView.bounds)
+        customPicker.backgroundColor = .systemGray6
+        customPicker.addSubview(pickerView)
+        
+        genreTextField.inputView = customPicker
     }
     
 }
