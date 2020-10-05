@@ -14,10 +14,9 @@
 		954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2825243E1700405DEC /* NotificationViewController.swift */; };
 		954D2F372524441B00405DEC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F362524441B00405DEC /* Extensions.swift */; };
 		958A5C0C25287F2600F87BB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 958A5C0B25287F2600F87BB5 /* GoogleService-Info.plist */; };
-		958A5C332528857C00F87BB5 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5C322528857C00F87BB5 /* AuthManager.swift */; };
 		958A5C3B2528858A00F87BB5 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5C3A2528858A00F87BB5 /* FirestoreManager.swift */; };
 		958A5C402528859F00F87BB5 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5C3F2528859F00F87BB5 /* StorageManager.swift */; };
-		95A285FC25287971003FBE46 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A285FB25287971003FBE46 /* LoginRegisterViewController.swift */; };
+		95C0231C252B0052006F536D /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C0231B252B0052006F536D /* LoginRegisterViewController.swift */; };
 		95C6BC5325242340008B28AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC5225242340008B28AD /* AppDelegate.swift */; };
 		95C6BC5525242340008B28AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6BC5425242340008B28AD /* SceneDelegate.swift */; };
 		95C6BC5A25242340008B28AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95C6BC5825242340008B28AD /* Main.storyboard */; };
@@ -66,10 +65,9 @@
 		954D2F2825243E1700405DEC /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		954D2F362524441B00405DEC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		958A5C0B25287F2600F87BB5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		958A5C322528857C00F87BB5 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		958A5C3A2528858A00F87BB5 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		958A5C3F2528859F00F87BB5 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
-		95A285FB25287971003FBE46 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewController.swift; sourceTree = "<group>"; };
+		95C0231B252B0052006F536D /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewController.swift; sourceTree = "<group>"; };
 		95C6BC4F25242340008B28AD /* heal_your_heart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = heal_your_heart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95C6BC5225242340008B28AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95C6BC5425242340008B28AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +174,7 @@
 			children = (
 				95C6BCA92524251A008B28AD /* PostViewController.swift */,
 				95D377FC2526E85800D22385 /* PostDetailViewController.swift */,
+				95C0231B252B0052006F536D /* LoginRegisterViewController.swift */,
 			);
 			path = Action;
 			sourceTree = "<group>";
@@ -183,19 +182,10 @@
 		958A5C312528856800F87BB5 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				958A5C322528857C00F87BB5 /* AuthManager.swift */,
 				958A5C3A2528858A00F87BB5 /* FirestoreManager.swift */,
 				958A5C3F2528859F00F87BB5 /* StorageManager.swift */,
 			);
 			path = Firebase;
-			sourceTree = "<group>";
-		};
-		95A2860525287983003FBE46 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				95A285FB25287971003FBE46 /* LoginRegisterViewController.swift */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		95C6BC462524233F008B28AD = {
@@ -278,7 +268,6 @@
 			children = (
 				95649CE0252746670047C4C0 /* Action */,
 				95C6BCA525242501008B28AD /* Main */,
-				95A2860525287983003FBE46 /* Onboarding */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -547,13 +536,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				95C6BCAA2524251A008B28AD /* PostViewController.swift in Sources */,
-				958A5C332528857C00F87BB5 /* AuthManager.swift in Sources */,
 				954D2F2425243E0200405DEC /* SearchViewController.swift in Sources */,
 				954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */,
 				95D378062526EB2300D22385 /* Post.swift in Sources */,
 				95F9961325273C27008FA3E5 /* NotificationTableViewCell.swift in Sources */,
 				95D377FD2526E85800D22385 /* PostDetailViewController.swift in Sources */,
 				958A5C402528859F00F87BB5 /* StorageManager.swift in Sources */,
+				95C0231C252B0052006F536D /* LoginRegisterViewController.swift in Sources */,
 				95C6BC5325242340008B28AD /* AppDelegate.swift in Sources */,
 				958A5C3B2528858A00F87BB5 /* FirestoreManager.swift in Sources */,
 				954D2F372524441B00405DEC /* Extensions.swift in Sources */,
@@ -561,7 +550,6 @@
 				95D377F72526026E00D22385 /* PostTableViewCell.swift in Sources */,
 				95F9960D25273949008FA3E5 /* Comment.swift in Sources */,
 				95C6BCA1252424F8008B28AD /* SettingsViewController.swift in Sources */,
-				95A285FC25287971003FBE46 /* LoginRegisterViewController.swift in Sources */,
 				95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */,
 				954D2F092524283100405DEC /* TimelineViewController.swift in Sources */,
 				95FE247C2526F36E00061EBA /* PostDetailTableViewCell.swift in Sources */,

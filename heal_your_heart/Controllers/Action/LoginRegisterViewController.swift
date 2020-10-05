@@ -1,15 +1,15 @@
 //
-//  LoginViewController.swift
+//  LoginRegisterViewController.swift
 //  heal_your_heart
 //
-//  Created by Yuki Shinohara on 2020/10/03.
+//  Created by Yuki Shinohara on 2020/10/05.
 //
 
 import UIKit
 import FirebaseAuth
 
 class LoginRegisterViewController: UIViewController {
-
+    
     @IBOutlet weak var loginStackView: UIStackView!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
