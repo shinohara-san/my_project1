@@ -62,14 +62,71 @@
             </objects>
             <point key="canvasLocation" x="1409" y="1436"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Login Register View Controller-->
         <scene sceneID="Cr5-3F-S1L">
             <objects>
-                <viewController storyboardIdentifier="loginVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hT1-fp-3pV" customClass="LoginViewController" customModule="heal_your_heart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hT1-fp-3pV" customClass="LoginRegisterViewController" customModule="heal_your_heart" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pBf-p1-ghB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="pb5-oY-VT6">
+                                <rect key="frame" x="20" y="44" width="374" height="454"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="お悩み相談SNS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ngu-pm-JLU">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ニックネーム" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dbE-f9-cVR">
+                                        <rect key="frame" x="0.0" y="50" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="性別" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tkg-hF-Hkt">
+                                        <rect key="frame" x="0.0" y="104" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="年代" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MHr-yU-mpc">
+                                        <rect key="frame" x="0.0" y="158" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="メールアドレス" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Jv-89-Nwf">
+                                        <rect key="frame" x="0.0" y="212" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="パスワード" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E1X-pq-rnS">
+                                        <rect key="frame" x="0.0" y="266" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="パスワード(確認用)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mLV-ZH-K2Z">
+                                        <rect key="frame" x="0.0" y="320" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2H-mK-CNw">
+                                        <rect key="frame" x="0.0" y="374" width="374" height="30"/>
+                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                        <state key="normal" title="登録">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Al-uc-XRr">
+                                        <rect key="frame" x="0.0" y="424" width="374" height="30"/>
+                                        <state key="normal" title="ログインはこちら">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapToLogin:" destination="hT1-fp-3pV" eventType="touchUpInside" id="ILd-ln-vNL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZaW-Ea-NWE">
                                 <rect key="frame" x="20" y="44" width="374" height="238"/>
                                 <subviews>
@@ -116,17 +173,23 @@
                         <constraints>
                             <constraint firstItem="AjE-LV-2Aj" firstAttribute="trailing" secondItem="ZaW-Ea-NWE" secondAttribute="trailing" constant="20" id="H65-4j-Pxu"/>
                             <constraint firstItem="ZaW-Ea-NWE" firstAttribute="leading" secondItem="AjE-LV-2Aj" secondAttribute="leading" constant="20" id="IZH-hP-jhN"/>
+                            <constraint firstItem="pb5-oY-VT6" firstAttribute="top" secondItem="pBf-p1-ghB" secondAttribute="topMargin" id="UM8-dA-6om"/>
+                            <constraint firstItem="AjE-LV-2Aj" firstAttribute="trailing" secondItem="pb5-oY-VT6" secondAttribute="trailing" constant="20" id="Ukh-ct-wlf"/>
                             <constraint firstItem="ZaW-Ea-NWE" firstAttribute="top" secondItem="AjE-LV-2Aj" secondAttribute="top" id="cfP-9R-PX5"/>
+                            <constraint firstItem="pb5-oY-VT6" firstAttribute="leading" secondItem="AjE-LV-2Aj" secondAttribute="leading" constant="20" id="vfh-A0-cNm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="kFY-J3-JpI"/>
                     <connections>
                         <outlet property="emailField" destination="3Fx-aM-Qsh" id="aNy-7z-W0z"/>
+                        <outlet property="loginStackView" destination="ZaW-Ea-NWE" id="Htc-40-ttp"/>
                         <outlet property="passwordField" destination="ij7-Gp-kUe" id="aGb-eO-lyP"/>
+                        <outlet property="registerStackView" destination="pb5-oY-VT6" id="HzR-gs-fbU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ex1-fb-Lee" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2362" y="2249"/>
+            <point key="canvasLocation" x="3271.0144927536235" y="2248.6607142857142"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="RTc-st-fVC">
@@ -205,6 +268,7 @@
                             <constraint firstItem="NcP-VZ-9Jw" firstAttribute="top" secondItem="k4N-6V-EP5" secondAttribute="top" id="wNm-gD-H0S"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="dWe-Zm-c4f"/>
                     <connections>
                         <outlet property="checkPasswordField" destination="ZEG-Ta-Fey" id="7fD-ht-Gh0"/>
                         <outlet property="emailField" destination="nH4-KI-Szu" id="vex-4k-I17"/>
@@ -216,7 +280,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LGu-sI-qLs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3058" y="2249"/>
+            <point key="canvasLocation" x="4878.2608695652179" y="2248.6607142857142"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="EwI-c3-LbO">
