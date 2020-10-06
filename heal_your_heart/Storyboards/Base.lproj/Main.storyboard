@@ -173,6 +173,9 @@
                                         <state key="normal" title="ログイン">
                                             <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didTapLogin:" destination="QXg-dY-ade" eventType="touchUpInside" id="hBk-qf-baQ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ck8-Gu-rhV">
                                         <rect key="frame" x="0.0" y="168" width="374" height="30"/>

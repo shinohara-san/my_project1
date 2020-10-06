@@ -31,4 +31,13 @@ final class FirestoreManager {
         }
     }
     
+    public func findMyProfile(email: String){
+        db.collection("users").whereField("email", isEqualTo: email).getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot, error == nil else {
+                return
+            }
+            print(snapshot.documents)
+        }
+    }
+    
 }

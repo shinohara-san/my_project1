@@ -13,6 +13,7 @@
 		954D2F2425243E0200405DEC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2325243E0200405DEC /* SearchViewController.swift */; };
 		954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2825243E1700405DEC /* NotificationViewController.swift */; };
 		954D2F372524441B00405DEC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F362524441B00405DEC /* Extensions.swift */; };
+		9554927C252C262B002C1EF2 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554927B252C262B002C1EF2 /* Profile.swift */; };
 		958A5C0C25287F2600F87BB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 958A5C0B25287F2600F87BB5 /* GoogleService-Info.plist */; };
 		958A5C3B2528858A00F87BB5 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5C3A2528858A00F87BB5 /* FirestoreManager.swift */; };
 		958A5C402528859F00F87BB5 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5C3F2528859F00F87BB5 /* StorageManager.swift */; };
@@ -64,6 +65,7 @@
 		954D2F2325243E0200405DEC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		954D2F2825243E1700405DEC /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		954D2F362524441B00405DEC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9554927B252C262B002C1EF2 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		958A5C0B25287F2600F87BB5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		958A5C3A2528858A00F87BB5 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		958A5C3F2528859F00F87BB5 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			children = (
 				95D378052526EB2300D22385 /* Post.swift */,
 				95F9960C25273949008FA3E5 /* Comment.swift */,
+				9554927B252C262B002C1EF2 /* Profile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				95F9960D25273949008FA3E5 /* Comment.swift in Sources */,
 				95C6BCA1252424F8008B28AD /* SettingsViewController.swift in Sources */,
 				95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */,
+				9554927C252C262B002C1EF2 /* Profile.swift in Sources */,
 				954D2F092524283100405DEC /* TimelineViewController.swift in Sources */,
 				95FE247C2526F36E00061EBA /* PostDetailTableViewCell.swift in Sources */,
 			);

@@ -103,6 +103,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 ac.addAction(UIAlertAction(title: "ログアウトする", style: .destructive, handler: { [weak self] _ in
                     if let vc = self?.storyboard?.instantiateViewController(identifier: "loginVC") as? LoginRegisterViewController {
                         vc.modalPresentationStyle = .fullScreen
+
+                        let UINavigationController = self?.tabBarController?.viewControllers?[0];
+                        self?.tabBarController?.selectedViewController = UINavigationController;
                         self?.present(vc, animated: false, completion: nil)
                     }
                     

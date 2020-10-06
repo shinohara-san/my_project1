@@ -34,7 +34,6 @@ class LoginRegisterViewController: UIViewController {
     }
 
     @IBAction func didTapLogin(_ sender: Any) {
-        
         guard let email = emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let password = passwordField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !email.isEmpty, !password.isEmpty else {
@@ -47,12 +46,13 @@ class LoginRegisterViewController: UIViewController {
             self?.alertUserLoginError(title: "ログイン失敗", message: "ログインできませんでした。")
             return
           }
+            print("errorなし")
+            FirestoreManager.shared.findMyProfile(email: email)
             strongSelf.dismiss(animated: false, completion: nil)
+            return
         }
     }
     @IBAction func didTapRegister(_ sender: Any) {
-        print("didTapRegister")
-        
         guard let email = emailRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let password = passRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let checkedPassword = passCheck.text?.trimmingCharacters(in: .whitespacesAndNewlines),
