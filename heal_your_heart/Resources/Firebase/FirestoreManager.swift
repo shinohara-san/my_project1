@@ -31,12 +31,24 @@ final class FirestoreManager {
         }
     }
     
-    public func findMyProfile(email: String){
+    public func setMyProfileUserDefaults(email: String){
         db.collection("users").whereField("email", isEqualTo: email).getDocuments { (snapshot, error) in
             guard let snapshot = snapshot, error == nil else {
                 return
             }
-            print(snapshot.documents)
+            for data in snapshot.documents {
+                guard let name = data["nickname"] as? String,
+                      let age = data["age"] as? String,
+                      let gender = data["gender"] as? String else {
+                    return
+                }
+                print("Setting userdefaults...\(name), \(age), \(gender)")
+                UserDefaults.standard.setValue(name, forKey: "name")
+                UserDefaults.standard.setValue(age, forKey: "age")
+                UserDefaults.standard.setValue(gender, forKey: "gender")
+                UserDefaults.standard.setValue(email, forKey: "email")
+                
+            }
         }
     }
     

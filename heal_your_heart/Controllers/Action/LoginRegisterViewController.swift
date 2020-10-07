@@ -46,8 +46,7 @@ class LoginRegisterViewController: UIViewController {
             self?.alertUserLoginError(title: "ログイン失敗", message: "ログインできませんでした。")
             return
           }
-            print("errorなし")
-            FirestoreManager.shared.findMyProfile(email: email)
+            FirestoreManager.shared.setMyProfileUserDefaults(email: email)
             strongSelf.dismiss(animated: false, completion: nil)
             return
         }
@@ -74,6 +73,7 @@ class LoginRegisterViewController: UIViewController {
                         self?.alertUserLoginError(title: "登録できませんでした。", message:  "正しく情報を入力してください。")
                         return
                     }
+                    FirestoreManager.shared.setMyProfileUserDefaults(email: email)
                     self?.dismiss(animated: true, completion: nil)
                 }
             } else {

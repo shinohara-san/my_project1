@@ -87,7 +87,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {
         case 0:
-            print("To profile")
+            if let vc = storyboard?.instantiateViewController(identifier: "profileVC") as? ProfileViewController {
+                navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 1:
             switch indexPath.row {
@@ -103,6 +105,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 ac.addAction(UIAlertAction(title: "ログアウトする", style: .destructive, handler: { [weak self] _ in
                     if let vc = self?.storyboard?.instantiateViewController(identifier: "loginVC") as? LoginRegisterViewController {
                         vc.modalPresentationStyle = .fullScreen
+                        
+                        UserDefaults.standard.setValue("", forKey: "name")
+                        UserDefaults.standard.setValue("", forKey: "age")
+                        UserDefaults.standard.setValue("", forKey: "gender")
+                        UserDefaults.standard.setValue("", forKey: "email")
 
                         let UINavigationController = self?.tabBarController?.viewControllers?[0];
                         self?.tabBarController?.selectedViewController = UINavigationController;

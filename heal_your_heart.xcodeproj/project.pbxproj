@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3E7DFC2177CB862DAE93C28C /* Pods_heal_your_heart_heal_your_heartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE705BC3DCB0509751D3BA2 /* Pods_heal_your_heart_heal_your_heartUITests.framework */; };
 		51CDFA373D16A27C0A008465 /* Pods_heal_your_heartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 157F59941823312C7F76777C /* Pods_heal_your_heartTests.framework */; };
+		9533BE6F252C37D0005068DD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9533BE6E252C37D0005068DD /* ProfileViewController.swift */; };
 		954D2F092524283100405DEC /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F082524283100405DEC /* TimelineViewController.swift */; };
 		954D2F2425243E0200405DEC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2325243E0200405DEC /* SearchViewController.swift */; };
 		954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F2825243E1700405DEC /* NotificationViewController.swift */; };
@@ -61,6 +62,7 @@
 /* Begin PBXFileReference section */
 		157F59941823312C7F76777C /* Pods_heal_your_heartTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_heal_your_heartTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE705BC3DCB0509751D3BA2 /* Pods_heal_your_heart_heal_your_heartUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_heal_your_heart_heal_your_heartUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9533BE6E252C37D0005068DD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		954D2F082524283100405DEC /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		954D2F2325243E0200405DEC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		954D2F2825243E1700405DEC /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				95C6BCA92524251A008B28AD /* PostViewController.swift */,
 				95D377FC2526E85800D22385 /* PostDetailViewController.swift */,
 				95C0231B252B0052006F536D /* LoginRegisterViewController.swift */,
+				9533BE6E252C37D0005068DD /* ProfileViewController.swift */,
 			);
 			path = Action;
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 			files = (
 				95C6BCAA2524251A008B28AD /* PostViewController.swift in Sources */,
 				954D2F2425243E0200405DEC /* SearchViewController.swift in Sources */,
+				9533BE6F252C37D0005068DD /* ProfileViewController.swift in Sources */,
 				954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */,
 				95D378062526EB2300D22385 /* Post.swift in Sources */,
 				95F9961325273C27008FA3E5 /* NotificationTableViewCell.swift in Sources */,
