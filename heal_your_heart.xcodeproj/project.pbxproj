@@ -176,9 +176,9 @@
 		95649CE0252746670047C4C0 /* Action */ = {
 			isa = PBXGroup;
 			children = (
+				95C0231B252B0052006F536D /* LoginRegisterViewController.swift */,
 				95C6BCA92524251A008B28AD /* PostViewController.swift */,
 				95D377FC2526E85800D22385 /* PostDetailViewController.swift */,
-				95C0231B252B0052006F536D /* LoginRegisterViewController.swift */,
 				9533BE6E252C37D0005068DD /* ProfileViewController.swift */,
 			);
 			path = Action;

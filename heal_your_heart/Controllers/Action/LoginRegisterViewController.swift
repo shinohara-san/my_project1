@@ -25,12 +25,14 @@ class LoginRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loginStackView.isHidden = false
         registerStackView.isHidden = true
         imageView.isUserInteractionEnabled = true
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfilePicture))
         imageView.addGestureRecognizer(gesture)
+        
     }
 
     @IBAction func didTapLogin(_ sender: Any) {

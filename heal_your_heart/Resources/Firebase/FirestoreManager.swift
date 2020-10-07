@@ -42,7 +42,7 @@ final class FirestoreManager {
                       let gender = data["gender"] as? String else {
                     return
                 }
-                print("Setting userdefaults...\(name), \(age), \(gender)")
+                
                 UserDefaults.standard.setValue(name, forKey: "name")
                 UserDefaults.standard.setValue(age, forKey: "age")
                 UserDefaults.standard.setValue(gender, forKey: "gender")

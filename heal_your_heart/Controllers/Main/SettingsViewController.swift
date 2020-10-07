@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SettingsViewController: UIViewController {
     
@@ -100,17 +101,24 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 print("To privacy policy")
                 break
             case 2:
-                print("Log Out")
                 let ac = UIAlertController(title: "ログアウト", message: "ログアウトしますか？", preferredStyle: .actionSheet)
                 ac.addAction(UIAlertAction(title: "ログアウトする", style: .destructive, handler: { [weak self] _ in
                     if let vc = self?.storyboard?.instantiateViewController(identifier: "loginVC") as? LoginRegisterViewController {
+                        
+                        let firebaseAuth = Auth.auth()
+                        do {
+                            try firebaseAuth.signOut()
+                        } catch let signOutError as NSError {
+                            print ("Error signing out: %@", signOutError)
+                        }
+                        
                         vc.modalPresentationStyle = .fullScreen
                         
                         UserDefaults.standard.setValue("", forKey: "name")
                         UserDefaults.standard.setValue("", forKey: "age")
                         UserDefaults.standard.setValue("", forKey: "gender")
                         UserDefaults.standard.setValue("", forKey: "email")
-
+                        
                         let UINavigationController = self?.tabBarController?.viewControllers?[0];
                         self?.tabBarController?.selectedViewController = UINavigationController;
                         self?.present(vc, animated: false, completion: nil)

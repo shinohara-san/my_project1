@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class TimelineViewController: UIViewController {
     
@@ -39,6 +40,7 @@ class TimelineViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         navigationItem.title = "タイムライン"
         let views = [tableView, postButton, noPostLabel]
@@ -48,6 +50,11 @@ class TimelineViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        validateAuth()
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,6 +80,16 @@ class TimelineViewController: UIViewController {
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true)
     }
+    
+    private func validateAuth(){
+        if FirebaseAuth.Auth.auth().currentUser == nil {
+            if let vc = storyboard?.instantiateViewController(identifier: "loginVC") as? LoginRegisterViewController {
+                vc.modalPresentationStyle = .fullScreen
+                present(vc, animated: false, completion: nil)
+            }
+        }
+    }
+    
 }
 
 extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
