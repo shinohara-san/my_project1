@@ -113,15 +113,18 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                         }
                         
                         vc.modalPresentationStyle = .fullScreen
+                        self?.present(vc, animated: false, completion: nil)
                         
                         UserDefaults.standard.setValue("", forKey: "name")
                         UserDefaults.standard.setValue("", forKey: "age")
                         UserDefaults.standard.setValue("", forKey: "gender")
                         UserDefaults.standard.setValue("", forKey: "email")
+                        UserDefaults.standard.setValue("", forKey: "profile_picture_url")
+                        UserDefaults.standard.setValue("", forKey: "id")
                         
-                        let UINavigationController = self?.tabBarController?.viewControllers?[0];
-                        self?.tabBarController?.selectedViewController = UINavigationController;
-                        self?.present(vc, animated: false, completion: nil)
+                        let UINavigationController = self?.tabBarController?.viewControllers?[0]
+                        self?.tabBarController?.selectedViewController = UINavigationController
+                        
                     }
                     
                 }))

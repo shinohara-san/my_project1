@@ -33,8 +33,11 @@ class LoginRegisterViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfilePicture))
         imageView.addGestureRecognizer(gesture)
         
+        DispatchQueue.main.async {[weak self] in
+            self?.imageView.layer.cornerRadius = 45.5
+        }
     }
-
+    
     @IBAction func didTapLogin(_ sender: Any) {
         guard let email = emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let password = passwordField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -44,10 +47,10 @@ class LoginRegisterViewController: UIViewController {
         }
         
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-          guard let strongSelf = self, error == nil else {
-            self?.alertUserLoginError(title: "ログイン失敗", message: "ログインできませんでした。")
-            return
-          }
+            guard let strongSelf = self, error == nil else {
+                self?.alertUserLoginError(title: "ログイン失敗", message: "ログインできませんでした。")
+                return
+            }
             FirestoreManager.shared.setMyProfileUserDefaults(email: email)
             strongSelf.dismiss(animated: false, completion: nil)
             return
@@ -67,14 +70,29 @@ class LoginRegisterViewController: UIViewController {
         }
         
         
-        
         FirestoreManager.shared.storeUserInfo(nickname: nickname, gender: gender, age: age, email: email){ [weak self] success in
             if success {
+                
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     guard authResult != nil, error == nil else {
                         self?.alertUserLoginError(title: "登録できませんでした。", message:  "正しく情報を入力してください。")
                         return
                     }
+                    let safeEmail = FirestoreManager.safeEmail(emailAdderess: email)
+                    
+                    if let image = self?.imageView.image,
+                       let data = image.pngData() {
+                        StorageManager.shared.uploadProfilePicture(with: data, fileName: safeEmail) { (result) in
+                            switch result {
+                            case .success(let downloadUrl):
+                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                print(downloadUrl)
+                            case .failure(let error):
+                                print("Storage manager error: \(error)")
+                            }
+                        }
+                    }
+                    
                     FirestoreManager.shared.setMyProfileUserDefaults(email: email)
                     self?.dismiss(animated: true, completion: nil)
                 }

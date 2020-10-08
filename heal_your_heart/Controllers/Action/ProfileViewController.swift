@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ProfileViewController: UIViewController {
     
+    @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
@@ -24,17 +26,29 @@ class ProfileViewController: UIViewController {
         }
         
         DispatchQueue.main.async { [weak self] in
+            let safeEmail = FirestoreManager.safeEmail(emailAdderess: email)
+            let path = "images/\(safeEmail)"
+            StorageManager.shared.downloadURL(for: path) { (result) in
+                switch result {
+                case .success(let url):
+                    self?.userImageView.sd_setImage(with: url, completed: nil)
+                case .failure(let error):
+                    print(error)
+                    self?.userImageView.image = UIImage(systemName: "person.circle.fill")
+                }
+            }
+            
             self?.nicknameLabel.text = name
             self?.emailLabel.text = email
             self?.genderLabel.text = gender
             self?.ageLabel.text = age
         }
-      
+        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        userImageView.layer.cornerRadius = 64
     }
     
 }
