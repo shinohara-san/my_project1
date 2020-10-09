@@ -47,7 +47,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        cell.configure(name: "たなか", genre: "将来について", imageUrl: nil, comment: "何したらいいかわからん", date: "2020/10/02")
+        cell.configure(name: "たなか", genre: "将来について", imageUrl: nil, comment: "何したらいいかわからん", date: Date())
         cell.delegate = self
         return cell
     }
@@ -71,8 +71,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension SearchViewController: PostTableViewCellDelegate {
-    func moveToDetail() {
-        let vc = PostDetailViewController()
+    func moveToDetail(post: Post) {
+        let vc = PostDetailViewController(post: Post(userName: "テスト",
+                                                     imageUrl: nil,
+                                                     genre: "テストについて",
+                                                     comment: "テストだよ",
+                                                     postDate: Date()))
         navigationController?.pushViewController(vc, animated: true)
     }
 }

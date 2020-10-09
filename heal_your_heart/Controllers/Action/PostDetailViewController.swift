@@ -9,8 +9,18 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
     
+    let post: Post?
+    
+    init(post: Post) {
+        self.post = post
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var sections = ["", "　コメント"]
-//    private var values = [[Post](), [Comment]()] as [Any]
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -55,7 +65,17 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostDetailTableViewCell.identifier,
                                                      for: indexPath) as! PostDetailTableViewCell
             cell.selectionStyle = .none
-            cell.configure(name: "しのはら", genre: "将来について", imageName: nil, comment: "生のバナナには、種のできるものがありますが、私たちがふだん食べているバナナに種はありません。皮をむけば丸ごと食べられます。しかし、バナナを輪切りにしてよく見てみると、中心近くに黒いつぶがあることがわかります。この黒いつぶは、種になるはずの部分ですが、大きくはなりません。", date: "2020/10/01")
+            guard let post = post else {return UITableViewCell()}
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            let dateString = formatter.string(from: post.postDate)
+            
+            cell.configure(name: post.userName as String,
+                           genre: post.genre as String,
+                           imageName: nil,
+                           comment: post.comment as String,
+                           date: dateString)
             
             return cell
         } else {

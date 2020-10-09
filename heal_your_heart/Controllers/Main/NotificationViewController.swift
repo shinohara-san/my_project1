@@ -61,7 +61,11 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
 
 extension NotificationViewController: NotificationTableViewCellDelegate {
     func moveToDetail() {
-        let vc = PostDetailViewController()
+        let vc = PostDetailViewController(post: Post(userName: "テスト",
+                                                     imageUrl: nil,
+                                                     genre: "テストについて",
+                                                     comment: "テストだよ",
+                                                     postDate: Date()))
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -33,7 +33,7 @@ final class FirestoreManager {
             } else {
                 guard let ref = ref else {return}
                 self?.db.collection("users").document(ref.documentID).updateData(["id": ref.documentID])
-//                print("Document added with ID: \(ref!.documentID)")
+                //                print("Document added with ID: \(ref!.documentID)")
                 completion(true)
             }
         }
@@ -82,9 +82,11 @@ final class FirestoreManager {
             guard let value = querySnapshot?.documents else {
                 return
             }
-            let posts : [Post] = value.compactMap { dictionary in
+            let posts : [Post] = value.compactMap { [weak self] dictionary in
+                
                 guard let userId = dictionary["userId"] as? String,
-//                      let imageUrl = dictionary["imageUrl"] as? URL,
+                      let username = self?.getUserName(id: userId), ///修正必要！！！
+                      //let imageUrl = dictionary["imageUrl"] as? URL,
                       let genre = dictionary["genre"] as? String,
                       let comment = dictionary["content"] as? String,
                       let postDate = dictionary["date"] as? Timestamp,
@@ -99,9 +101,24 @@ final class FirestoreManager {
                             comment: comment as String,
                             postDate: date as Date)
             }
-            print("posts@func: \(posts)")
             completion(.success(posts))
         }
+    }
+    
+    public func getUserName(id: String) -> String {
+        var username: String = ""
+        db.collection("users").whereField("id", isEqualTo: id).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if let nickname = document["nickname"] as? String {
+                        username = nickname
+                    }
+                }
+            }
+        }
+        return username
     }
     
 }

@@ -8,13 +8,15 @@
 import UIKit
 
 protocol PostTableViewCellDelegate: AnyObject {
-    func moveToDetail()
+    func moveToDetail(post: Post)
 }
 
 class PostTableViewCell: UITableViewCell {
     
     static let identifier = "PostTableViewCell"
     public weak var delegate: PostTableViewCellDelegate?
+    
+    var post: Post?
     
     static func nib() -> UINib {
         return UINib(nibName: "PostTableViewCell", bundle: nil)
@@ -43,12 +45,19 @@ class PostTableViewCell: UITableViewCell {
         //いいねの増減
     }
     
-    public func configure(name: String, genre: String, imageUrl: URL?, comment: String, date: String){
+    public func configure(name: String, genre: String, imageUrl: URL?, comment: String, date: Date){
+        
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .medium
+        let dateString = formatter.string(from: date)
+        
+        post = Post(userName: name, imageUrl: nil, genre: genre, comment: comment, postDate: date)
         DispatchQueue.main.async { [weak self] in
             self?.userNameLabel.text = name
             self?.commentGenreLabel.text = genre
             self?.commentLabel.text = comment
-            self?.dateLabel.text = date
+            self?.dateLabel.text = dateString
             if imageUrl != nil {
                 
             } else {
@@ -60,7 +69,8 @@ class PostTableViewCell: UITableViewCell {
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
-            delegate?.moveToDetail()
+            guard let post = post else {return}
+            delegate?.moveToDetail(post: post)
         }
     }
 }

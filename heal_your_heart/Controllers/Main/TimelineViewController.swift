@@ -61,7 +61,6 @@ class TimelineViewController: UIViewController {
         FirestoreManager.shared.fetchPostFromFirestore { [weak self] (result) in
             switch result {
             case .success(let posts):
-                print("posts: \(posts)")
                 guard !posts.isEmpty else {
                     print("posts is empty")
                     self?.tableView.isHidden = true
@@ -129,18 +128,15 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
         let post = posts[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        let dateString = formatter.string(from: post.postDate)
         
         cell.configure(name: post.userName,
                        genre: post.genre,
                        imageUrl: nil,
                        comment: post.comment,
-                       date: dateString)
+                       date: post.postDate)
         
         cell.delegate = self
+        
         return cell
     }
     
@@ -163,8 +159,8 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension TimelineViewController: PostTableViewCellDelegate {
-    func moveToDetail() {
-        let vc = PostDetailViewController()
+    func moveToDetail(post: Post) {
+        let vc = PostDetailViewController(post: post)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
