@@ -43,12 +43,19 @@ class PostTableViewCell: UITableViewCell {
         //いいねの増減
     }
     
-    public func configure(name: String, genre: String, imageName: String?, comment: String, date: String){
-        userNameLabel.text = name
-        commentGenreLabel.text = genre
-        commentLabel.text = comment
-        dateLabel.text = date
-        userImageView.image = UIImage(systemName: "person.circle")
+    public func configure(name: String, genre: String, imageUrl: URL?, comment: String, date: String){
+        DispatchQueue.main.async { [weak self] in
+            self?.userNameLabel.text = name
+            self?.commentGenreLabel.text = genre
+            self?.commentLabel.text = comment
+            self?.dateLabel.text = date
+            if imageUrl != nil {
+                
+            } else {
+                self?.userImageView.image = UIImage(systemName: "person.circle")
+            }
+        }
+        
     }
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {

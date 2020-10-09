@@ -30,9 +30,9 @@ class PostViewController: UIViewController {
         commentTextView.becomeFirstResponder()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "キャンセル",
-                                                            style: .done,
-                                                            target: self,
-                                                            action:#selector(didTapClose))
+                                                           style: .done,
+                                                           target: self,
+                                                           action:#selector(didTapClose))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "投稿する",
                                                             style: .done,
@@ -43,7 +43,7 @@ class PostViewController: UIViewController {
         
         setUpToolbar()
         setUpPickerView()
-
+        
     }
     
     @objc private func didTapClose(){
@@ -61,8 +61,24 @@ class PostViewController: UIViewController {
     @objc private func didTapPost(){
         let ac = UIAlertController(title: "投稿しますか？", message: "", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "投稿する", style: .default, handler: { [weak self](_) in
-            //投稿する処理
-            self?.dismiss(animated: true, completion: nil) //成功時
+            
+            guard let userId = UserDefaults.standard.value(forKey: "id") as? String,
+                  let genre = self?.genreTextField.text,
+                  let content = self?.commentTextView.text,
+                  !content.isEmpty
+            else {return}
+            
+            FirestoreManager.shared.postToFirestore(userId: userId, genre: genre, content: content, completion: { [weak self] result in
+                switch result {
+                case true:
+                    self?.dismiss(animated: true, completion: nil) //成功時
+                case false:
+                    let ac = UIAlertController(title: "エラー", message: "投稿できませんでした。", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self?.present(ac, animated: true)
+                }
+            })
+            
         }))
         ac.addAction(UIAlertAction(title: "入力を続ける", style: .default))
         present(ac, animated: true, completion: nil)

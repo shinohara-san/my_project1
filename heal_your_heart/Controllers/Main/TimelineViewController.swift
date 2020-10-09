@@ -10,6 +10,8 @@ import FirebaseAuth
 
 class TimelineViewController: UIViewController {
     
+    private var posts = [Post]()
+    
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(PostTableViewCell.nib(),
@@ -52,9 +54,35 @@ class TimelineViewController: UIViewController {
         
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         validateAuth()
+        FirestoreManager.shared.fetchPostFromFirestore { [weak self] (result) in
+            switch result {
+            case .success(let posts):
+                print("posts: \(posts)")
+                guard !posts.isEmpty else {
+                    print("posts is empty")
+                    self?.tableView.isHidden = true
+                    self?.noPostLabel.isHidden = false
+                    return
+                }
+                
+                self?.noPostLabel.isHidden = true
+                self?.tableView.isHidden = false
+                self?.posts = posts
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+                
+            case .failure(let error):
+                print("failed to get conversations!!: \(error)")
+                self?.tableView.isHidden = true
+                self?.noPostLabel.isHidden = false
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,13 +122,24 @@ class TimelineViewController: UIViewController {
 
 extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let post = posts[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        cell.configure(name: "しのはら", genre: "人生について", imageName: "", comment: "その後、アメリカとソ連漂取らなくてはなりません。", date: "2020/10/01")
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        let dateString = formatter.string(from: post.postDate)
+        
+        cell.configure(name: post.userName,
+                       genre: post.genre,
+                       imageUrl: nil,
+                       comment: post.comment,
+                       date: dateString)
+        
         cell.delegate = self
         return cell
     }

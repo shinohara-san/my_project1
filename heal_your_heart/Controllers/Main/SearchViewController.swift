@@ -47,7 +47,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        cell.configure(name: "たなか", genre: "将来について", imageName: nil, comment: "何したらいいかわからん", date: "2020/10/02")
+        cell.configure(name: "たなか", genre: "将来について", imageUrl: nil, comment: "何したらいいかわからん", date: "2020/10/02")
         cell.delegate = self
         return cell
     }

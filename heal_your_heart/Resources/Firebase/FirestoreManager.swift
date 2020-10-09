@@ -59,4 +59,54 @@ final class FirestoreManager {
             }
         }
     }
+    
+    public func postToFirestore(userId: String, genre: String, content: String, completion: @escaping (Bool) -> Void){
+        db.collection("posts").addDocument(data: [
+            "userId" : userId,
+            "genre" : genre,
+            "content" : content,
+            "date": Date()
+        ]) { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
+    
+    public func fetchPostFromFirestore(completion: @escaping (Result<[Post], Error>) -> Void){
+        
+        db.collection("posts").order(by: "date", descending: true).getDocuments() { (querySnapshot, err) in
+            guard let value = querySnapshot?.documents else {
+                return
+            }
+            let posts : [Post] = value.compactMap { dictionary in
+                guard let userId = dictionary["userId"] as? String,
+//                      let imageUrl = dictionary["imageUrl"] as? URL,
+                      let genre = dictionary["genre"] as? String,
+                      let comment = dictionary["content"] as? String,
+                      let postDate = dictionary["date"] as? Timestamp,
+                      let date = postDate.dateValue() as? Date else {
+                    print("posts is nil")
+                    return nil
+                }
+                
+                return Post(userName: userId as String,
+                            imageUrl: nil,
+                            genre: genre as String,
+                            comment: comment as String,
+                            postDate: date as Date)
+            }
+            print("posts@func: \(posts)")
+            completion(.success(posts))
+        }
+    }
+    
+}
+
+enum FirestoreError: Error {
+    case failedToFetch
+    case failedToUpload
 }
