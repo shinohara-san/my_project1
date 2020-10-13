@@ -121,6 +121,10 @@ final class FirestoreManager {
         return username
     }
     
+//    public func fetchComment(id: String) -> [Comment] {
+//
+//    }
+    
 }
 
 enum FirestoreError: Error {

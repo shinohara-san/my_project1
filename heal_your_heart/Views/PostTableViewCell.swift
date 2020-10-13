@@ -45,21 +45,20 @@ class PostTableViewCell: UITableViewCell {
         //いいねの増減
     }
     
-    public func configure(name: String, genre: String, imageUrl: URL?, comment: String, date: Date){
+    public func configure(post: Post){
         
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.dateStyle = .medium
-        let dateString = formatter.string(from: date)
+        let dateString = formatter.string(from: post.postDate)
         
-        post = Post(userName: name, imageUrl: nil, genre: genre, comment: comment, postDate: date)
         DispatchQueue.main.async { [weak self] in
-            self?.userNameLabel.text = name
-            self?.commentGenreLabel.text = genre
-            self?.commentLabel.text = comment
+            self?.userNameLabel.text = post.userName
+            self?.commentGenreLabel.text = post.genre
+            self?.commentLabel.text = post.comment
             self?.dateLabel.text = dateString
-            if imageUrl != nil {
-                
+            if post.imageUrl != nil {
+                //ユーザー固有の画像
             } else {
                 self?.userImageView.image = UIImage(systemName: "person.circle")
             }

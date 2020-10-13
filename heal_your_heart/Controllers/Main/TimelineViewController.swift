@@ -129,12 +129,8 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
         
-        cell.configure(name: post.userName,
-                       genre: post.genre,
-                       imageUrl: nil,
-                       comment: post.comment,
-                       date: post.postDate)
-        
+        cell.configure(post: post)
+        cell.post = post
         cell.delegate = self
         
         return cell

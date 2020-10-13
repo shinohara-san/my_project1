@@ -12,4 +12,5 @@ struct Comment {
     var userImage: String?
     var comment: String
     var postDate: Date
+    var postId: String
 }

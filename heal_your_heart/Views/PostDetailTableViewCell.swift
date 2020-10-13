@@ -29,21 +29,27 @@ class PostDetailTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
-    public func configure(name: String, genre: String, imageName: String?, comment: String, date: String){
-        userNameLabel.text = name
-        genreLabel.text = genre
-        commentLabel.text = comment
-        dateLabel.text = date
-        userImageView.image = UIImage(systemName: "person.circle")
+    public func configure(with post: Post){
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        let dateString = formatter.string(from: post.postDate)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.userNameLabel.text = post.userName
+            self?.genreLabel.text = post.genre
+            self?.commentLabel.text = post.comment
+            self?.dateLabel.text = dateString
+            self?.userImageView.image = UIImage(systemName: "person.circle")
+        }
     }
     
 }

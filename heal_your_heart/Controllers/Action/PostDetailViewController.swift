@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController {
+class PostDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     let post: Post?
     
@@ -30,7 +30,7 @@ class PostDetailViewController: UIViewController {
                            forCellReuseIdentifier: CommentTableViewCell.identifier)
         return tableView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "詳細"
@@ -47,6 +47,35 @@ class PostDetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
+    
+    @objc private func didTapPost(){
+        print("コメント書く")
+    }
+    
+    func createTableHeader() -> UIView {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+        
+        let label : UILabel = UILabel(frame: CGRect(x: 10,
+                                                    y: 10,
+                                                    width: view.frame.width / 3,
+                                                    height: headerView.frame.height - 20))
+        label.textColor = .gray
+        label.text = "コメント"
+        
+        let button = UIButton(frame: CGRect(x: 10 + label.frame.width,
+                                            y: 10,
+                                            width: view.frame.width / 3,
+                                            height: headerView.frame.height - 20))
+        button.setImage(UIImage(systemName: "bubble.right"), for: .normal)
+        button.tintColor = .gray
+        button.addTarget(self, action: #selector(didTapPost), for: .touchUpInside)
+        
+        headerView.addSubview(label)
+        headerView.addSubview(button)
+        
+        return headerView
+    }
+    
 }
 
 extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -66,16 +95,8 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
                                                      for: indexPath) as! PostDetailTableViewCell
             cell.selectionStyle = .none
             guard let post = post else {return UITableViewCell()}
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .short
-            let dateString = formatter.string(from: post.postDate)
             
-            cell.configure(name: post.userName as String,
-                           genre: post.genre as String,
-                           imageName: nil,
-                           comment: post.comment as String,
-                           date: dateString)
+            cell.configure(with: post)
             
             return cell
         } else {
@@ -91,7 +112,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 0
         case 1:
-            return 25
+            return 40
         default:
             return 0
         }
@@ -108,10 +129,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return UIView()
         case 1:
-            let label : UILabel = UILabel()
-            label.textColor = .gray
-            label.text = sections[section]
-            return label
+            return createTableHeader()
         default:
             print("Error: ViewForHeader")
             break

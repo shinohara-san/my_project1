@@ -16,6 +16,15 @@ class SearchViewController: UIViewController {
         return tableView
     }()
     
+    private let noResultLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No Result"
+        label.isHidden = true
+        return label
+    }()
+    
+    var posts = [Post]()
+    
     private var searchBar: UISearchBar!
     
     override func viewDidLoad() {
@@ -24,7 +33,7 @@ class SearchViewController: UIViewController {
         
         setupSearchBar()
         
-        let views = [tableView]
+        let views = [tableView, noResultLabel]
         for x in views {
             view.addSubview(x)
         }
@@ -36,18 +45,20 @@ class SearchViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        noResultLabel.frame = view.bounds
     }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        cell.configure(name: "たなか", genre: "将来について", imageUrl: nil, comment: "何したらいいかわからん", date: Date())
+        let post = posts[indexPath.row]
+        cell.configure(post: post)
         cell.delegate = self
         return cell
     }

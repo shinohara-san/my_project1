@@ -67,11 +67,10 @@
                         </constraints>
                         <state key="normal" title="応援する"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020/10/01" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ec-Qj-0C1">
-                        <rect key="frame" x="248" y="107" width="90" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020/10/01" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ec-Qj-0C1">
+                        <rect key="frame" x="205" y="107" width="133" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="faE-7a-2bF"/>
-                            <constraint firstAttribute="width" constant="90" id="z2z-XD-B5h"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -92,6 +91,7 @@
                     <constraint firstItem="hmY-c1-dVg" firstAttribute="leading" secondItem="afE-KZ-22l" secondAttribute="trailing" constant="5" id="Z3P-DY-GVk"/>
                     <constraint firstAttribute="bottom" secondItem="Eoo-W5-gVA" secondAttribute="bottom" constant="50" id="a6j-nf-itw"/>
                     <constraint firstItem="afE-KZ-22l" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="bXL-Pv-BJ4"/>
+                    <constraint firstItem="9ec-Qj-0C1" firstAttribute="leading" secondItem="Ipl-Gg-bhd" secondAttribute="trailing" constant="10" id="nBx-Zl-MIw"/>
                     <constraint firstAttribute="bottom" secondItem="9pw-5o-Yzf" secondAttribute="bottom" constant="7" id="qYx-6E-9fM"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Ipl-Gg-bhd" secondAttribute="bottom" id="sDJ-Fr-yGF"/>
                     <constraint firstItem="4Nd-A0-sPM" firstAttribute="leading" secondItem="afE-KZ-22l" secondAttribute="trailing" constant="5" id="xFQ-7P-aVx"/>
