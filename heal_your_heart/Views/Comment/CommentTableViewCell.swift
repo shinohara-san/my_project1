@@ -26,14 +26,27 @@ class CommentTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         userImageLabel.image = UIImage(systemName: "person.circle")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+    }
+    
+    public func configure(with comment: Comment){
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        let dateString = formatter.string(from: comment.postDate)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.userNameLabel.text = comment.userName
+            self?.commentLabel.text = comment.comment
+            self?.dateLabel.text = dateString
+            self?.userImageLabel.image = UIImage(systemName: "person.circle")
+        }
     }
     
 }

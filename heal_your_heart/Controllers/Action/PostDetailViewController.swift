@@ -7,9 +7,15 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class KeyboardOverlay {
+    static var newTop: CGFloat = 0
+    static var currentTop: CGFloat = 0
+}
+
+class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    let post: Post?
+    var post: Post?
+    var comments: [Comment]?
     
     init(post: Post) {
         self.post = post
@@ -20,7 +26,7 @@ class PostDetailViewController: UIViewController, UIViewControllerTransitioningD
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var sections = ["", "　コメント"]
+    private var sections = ["", "コメント"]
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -28,28 +34,117 @@ class PostDetailViewController: UIViewController, UIViewControllerTransitioningD
                            forCellReuseIdentifier: PostDetailTableViewCell.identifier)
         tableView.register(CommentTableViewCell.nib(),
                            forCellReuseIdentifier: CommentTableViewCell.identifier)
+        tableView.register(NoCommentTableViewCell.nib(),
+                           forCellReuseIdentifier: NoCommentTableViewCell.identifier)
         return tableView
     }()
-
+    
+    private let commentFieldView: UIView = {
+        let uiview = UIView()
+        uiview.backgroundColor = .systemBackground
+        return uiview
+    }()
+    
+    private let commentTextField: UITextField = {
+        let field = UITextField()
+        field.backgroundColor = .systemBackground
+        field.layer.borderWidth = 1
+        field.layer.borderColor = UIColor.gray.cgColor
+        field.layer.cornerRadius = 10
+        field.leftView = UIView(frame: CGRect(x: 5, y: 0, width: 5, height: 0))
+        field.leftViewMode = .always
+        return field
+    }()
+    
+    private let commentButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("送信", for: .normal)
+        button.backgroundColor = .link
+        button.layer.cornerRadius = 10
+        button.setTitleColor(.white, for: .normal)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.title = "詳細"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "閉じる",
+                                                           style: .done,
+                                                           target: self,
+                                                           action: #selector(didTapClose))
         view.backgroundColor = .systemBackground
-        let views = [tableView]
+        let views = [tableView, commentFieldView]
         for x in views {
             view.addSubview(x)
         }
         tableView.delegate = self
         tableView.dataSource = self
+        
+        commentTextField.delegate = self
+        
+        let subviews = [commentTextField, commentButton]
+        for x in subviews {
+            commentFieldView.addSubview(x)
+        }
+        
+        commentButton.addTarget(self, action: #selector(didTapComment), for: .touchUpInside)
+        
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
+        tapGesture.delegate = self
+        view.addGestureRecognizer(tapGesture)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillChange),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
+    }
+    
+    @objc func tapped(_ sender: UITapGestureRecognizer){
+        // 処理
+        if sender.state == .ended {
+            commentTextField.resignFirstResponder()
+        }
+    }
+    
+    @objc private func didTapClose(){
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+        
+        tableView.frame = CGRect(x: 0, y: 0,
+                                 width: view.frame.width,
+                                 height: view.frame.height)
+        
+        commentFieldView.frame = CGRect(x: 0,
+                                        y: view.height - 80,
+                                        width: view.frame.width,
+                                        height: 80)
+        
+        commentTextField.frame = CGRect(x: 10,
+                                        y: 20,
+                                        width: commentFieldView.frame.width * 2.25 / 3,
+                                        height: 40)
+        
+        commentButton.frame = CGRect(x: 10 + commentTextField.frame.width + 10,
+                                     y: 20,
+                                     width: commentFieldView.frame.width - 30 - commentTextField.frame.width,
+                                     height: 40)
     }
     
-    @objc private func didTapPost(){
-        print("コメント書く")
+    func closeKeyboard() {
+        commentTextField.endEditing(true)
+    }
+    
+    @objc func keyboardWillChange(notification:NSNotification) {
+        let keyboardHeight = view.height - (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY
+        print((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY)
+        KeyboardOverlay.newTop = keyboardHeight
+            commentFieldView.frame.origin.y = commentFieldView.frame.origin.y + (KeyboardOverlay.currentTop - KeyboardOverlay.newTop)
+        
+        KeyboardOverlay.currentTop = keyboardHeight
     }
     
     func createTableHeader() -> UIView {
@@ -59,21 +154,18 @@ class PostDetailViewController: UIViewController, UIViewControllerTransitioningD
                                                     y: 10,
                                                     width: view.frame.width / 3,
                                                     height: headerView.frame.height - 20))
+        label.center = headerView.center
         label.textColor = .gray
         label.text = "コメント"
-        
-        let button = UIButton(frame: CGRect(x: 10 + label.frame.width,
-                                            y: 10,
-                                            width: view.frame.width / 3,
-                                            height: headerView.frame.height - 20))
-        button.setImage(UIImage(systemName: "bubble.right"), for: .normal)
-        button.tintColor = .gray
-        button.addTarget(self, action: #selector(didTapPost), for: .touchUpInside)
+        label.textAlignment = .center
         
         headerView.addSubview(label)
-        headerView.addSubview(button)
         
         return headerView
+    }
+    
+    @objc private func didTapComment(){
+        
     }
     
 }
@@ -85,7 +177,16 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if section == 0 {
+            return 1
+        } else if section == 1 {
+            guard let comments = comments else {
+                
+                return 1
+            }
+            return comments.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -100,8 +201,19 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         } else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier,
                                                      for: indexPath) as! CommentTableViewCell
+            guard let comments = comments else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: NoCommentTableViewCell.identifier,
+                                                         for: indexPath) as! NoCommentTableViewCell
+                tableView.separatorStyle = .none
+                
+                return cell
+                //                return UITableViewCell()
+            }
+            let comment = comments[indexPath.row]
+            cell.configure(with: comment)
             cell.selectionStyle = .none
             return cell
         }
@@ -113,6 +225,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         case 1:
             return 40
+        //            return 25
         default:
             return 0
         }
@@ -120,7 +233,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        tableView.estimatedRowHeight = 200
+        tableView.estimatedRowHeight = 100
         return UITableView.automaticDimension
     }
     
@@ -137,3 +250,15 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         return nil
     }
 }
+
+extension PostDetailViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //dbにcommentを投げる、コメントのtableをreloaddataする
+        //textField.resignFirstResponder()
+        didTapComment()
+        return true
+    }
+    
+}
+

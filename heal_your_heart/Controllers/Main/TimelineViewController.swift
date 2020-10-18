@@ -157,6 +157,9 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
 extension TimelineViewController: PostTableViewCellDelegate {
     func moveToDetail(post: Post) {
         let vc = PostDetailViewController(post: post)
-        navigationController?.pushViewController(vc, animated: true)
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
+       
     }
 }
