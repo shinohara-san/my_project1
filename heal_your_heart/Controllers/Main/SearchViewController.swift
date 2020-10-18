@@ -83,12 +83,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: PostTableViewCellDelegate {
     func moveToDetail(post: Post) {
-        let vc = PostDetailViewController(post: Post(userName: "テスト",
-                                                     imageUrl: nil,
-                                                     genre: "テストについて",
-                                                     comment: "テストだよ",
-                                                     postDate: Date()))
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = PostDetailViewController(post: Post(userName: "テスト",
+//                                                     imageUrl: nil,
+//                                                     genre: "テストについて",
+//                                                     comment: "テストだよ",
+//                                                     postDate: Date(), id: "テストID"))
+//        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

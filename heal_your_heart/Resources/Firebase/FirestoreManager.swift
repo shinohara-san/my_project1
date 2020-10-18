@@ -32,7 +32,7 @@ final class FirestoreManager {
                 completion(false)
             } else {
                 guard let ref = ref else {return}
-                self?.db.collection("users").document(ref.documentID).updateData(["id": ref.documentID])
+                self?.db.collection("users").document(ref.documentID).updateData(["selfId": ref.documentID])
                 //                print("Document added with ID: \(ref!.documentID)")
                 completion(true)
             }
@@ -61,16 +61,19 @@ final class FirestoreManager {
     }
     
     public func postToFirestore(userId: String, genre: String, content: String, completion: @escaping (Bool) -> Void){
-        db.collection("posts").addDocument(data: [
+        var ref: DocumentReference? = nil
+        ref = db.collection("posts").addDocument(data: [
             "userId" : userId,
             "genre" : genre,
             "content" : content,
             "date": Date()
-        ]) { (error) in
+        ]) { [weak self](error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(false)
             } else {
+                guard let ref = ref else {return}
+                self?.db.collection("posts").document(ref.documentID).updateData(["selfId": ref.documentID])
                 completion(true)
             }
         }
@@ -90,16 +93,18 @@ final class FirestoreManager {
                       let genre = dictionary["genre"] as? String,
                       let comment = dictionary["content"] as? String,
                       let postDate = dictionary["date"] as? Timestamp,
-                      let date = postDate.dateValue() as? Date else {
+                      let selfId = dictionary["selfId"] as? String else {
                     print("posts is nil")
                     return nil
                 }
-                
+                let date = postDate.dateValue()
                 return Post(userName: userId as String,
                             imageUrl: nil,
                             genre: genre as String,
                             comment: comment as String,
-                            postDate: date as Date)
+                            postDate: date as Date,
+                            selfId: selfId,
+                            userId: userId)
             }
             completion(.success(posts))
         }
@@ -121,9 +126,55 @@ final class FirestoreManager {
         return username
     }
     
-//    public func fetchComment(id: String) -> [Comment] {
-//
-//    }
+    public func sendComment(name: String, comment: String, parentId: String, completion: @escaping (Bool) -> Void) {
+        var ref: DocumentReference? = nil
+        ref = db.collection("comments").addDocument(data: [
+            "name": name,
+            "comment": comment,
+            "date": Date(),
+            "parentId": parentId
+        ]) { [weak self] err in
+            if let err = err {
+                print("Error adding document: \(err)")
+                completion(false)
+            } else {
+                guard let ref = ref else {return}
+                self?.db.collection("comments").document(ref.documentID).updateData(["selfId": ref.documentID])
+                completion(true)
+            }
+        }
+    }
+    
+    public func fetchComment(id: String, completion: @escaping (Result<[Comment], Error>) -> Void){
+        db.collection("comments")
+            .whereField("parentId", isEqualTo: id)
+            .order(by: "date", descending: true).getDocuments { (querySnapshot, err) in
+                
+                guard let value = querySnapshot?.documents else {
+                    return
+                }
+                
+                let comments : [Comment] = value.compactMap { dictionary in
+                    
+                    guard let name = dictionary["name"] as? String,
+                          let comment = dictionary["comment"] as? String,
+                          let postDate = dictionary["date"] as? Timestamp,
+                          let selfId = dictionary["selfId"] as? String else {
+                        print("comments is nil")
+                        return nil
+                    }
+                    
+                    let date = postDate.dateValue()
+                    
+                    return Comment(userName: name,
+                                   userImage: nil,
+                                   comment: comment,
+                                   postDate: date,
+                                   postId: selfId)
+                }
+                completion(.success(comments))
+            }
+    }
     
 }
 

@@ -56,7 +56,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         return field
     }()
     
-    private let commentButton: UIButton = {
+    private let sendButton: UIButton = {
         let button = UIButton()
         button.setTitle("送信", for: .normal)
         button.backgroundColor = .link
@@ -83,12 +83,12 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         
         commentTextField.delegate = self
         
-        let subviews = [commentTextField, commentButton]
+        let subviews = [commentTextField, sendButton]
         for x in subviews {
             commentFieldView.addSubview(x)
         }
         
-        commentButton.addTarget(self, action: #selector(didTapComment), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(didTapSend), for: .touchUpInside)
         
         let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tapGesture.delegate = self
@@ -98,6 +98,35 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                                                selector: #selector(keyboardWillChange),
                                                name: UIResponder.keyboardWillChangeFrameNotification,
                                                object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        guard let post = post else {return}
+        FirestoreManager.shared.fetchComment(id: post.selfId, completion: { [weak self] (result) in
+            switch result {
+            case .success(let comments):
+                guard !comments.isEmpty else {
+                    print("comments is empty")
+                    print("失敗")
+                    self?.tableView.isHidden = true
+                    return
+                }
+                
+                self?.tableView.isHidden = false
+                self?.comments = comments
+                print("成功")
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                    print("成功")
+                }
+                
+            case .failure(let error):
+                print("failed to get conversations!!: \(error)")
+                print("失敗")
+                self?.tableView.isHidden = true
+            }
+        })
     }
     
     @objc func tapped(_ sender: UITapGestureRecognizer){
@@ -128,7 +157,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                                         width: commentFieldView.frame.width * 2.25 / 3,
                                         height: 40)
         
-        commentButton.frame = CGRect(x: 10 + commentTextField.frame.width + 10,
+        sendButton.frame = CGRect(x: 10 + commentTextField.frame.width + 10,
                                      y: 20,
                                      width: commentFieldView.frame.width - 30 - commentTextField.frame.width,
                                      height: 40)
@@ -164,8 +193,31 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         return headerView
     }
     
-    @objc private func didTapComment(){
+    @objc private func didTapSend(){
+        //firestoreにcommentを送る処理
+        guard let name = UserDefaults.standard.value(forKey: "name") as? String,
+              let comment = commentTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !comment.isEmpty else {
+            return
+        }
         
+        guard let post = post else {
+            return
+        }
+        
+        FirestoreManager.shared.sendComment(name: name, comment: comment, parentId: post.selfId,
+                                            completion: { [weak self] success in
+            if success {
+                self?.commentTextField.resignFirstResponder()
+                self?.commentTextField.text = ""
+            } else {
+                let ac = UIAlertController(title: "エラー",
+                                           message: "コメントできませんでした。",
+                                           preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self?.present(ac, animated: true, completion: nil)
+            }
+        })
     }
     
 }
@@ -210,7 +262,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.separatorStyle = .none
                 
                 return cell
-                //                return UITableViewCell()
             }
             let comment = comments[indexPath.row]
             cell.configure(with: comment)
@@ -256,7 +307,7 @@ extension PostDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //dbにcommentを投げる、コメントのtableをreloaddataする
         //textField.resignFirstResponder()
-        didTapComment()
+        didTapSend()
         return true
     }
     

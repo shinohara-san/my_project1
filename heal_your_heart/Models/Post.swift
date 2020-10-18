@@ -13,5 +13,7 @@ struct Post {
     var genre: String
     var comment: String
     var postDate: Date
+    var selfId: String
+    var userId: String
 //    var cheerCount: Int
 }
