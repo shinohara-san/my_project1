@@ -103,13 +103,12 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         guard let post = post else {return}
-        FirestoreManager.shared.fetchComment(id: post.selfId, completion: { [weak self] (result) in
+        FirestoreManager.shared.fetchComment(id: post.postId, completion: { [weak self] (result) in
             switch result {
             case .success(let comments):
                 guard !comments.isEmpty else {
-                    print("comments is empty")
-                    print("失敗")
-                    self?.tableView.isHidden = true
+                    ///コメントが存在しないと真っ白
+//                    self?.tableView.isHidden = true
                     return
                 }
                 
@@ -120,8 +119,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
             case .failure(let error):
-                print("failed to get conversations!!: \(error)")
-                self?.tableView.isHidden = true
+                print("fetchComment failed: \(error)")
             }
         })
     }
@@ -166,7 +164,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func keyboardWillChange(notification:NSNotification) {
         let keyboardHeight = view.height - (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY
-        print((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY)
+//        print((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY)
         KeyboardOverlay.newTop = keyboardHeight
             commentFieldView.frame.origin.y = commentFieldView.frame.origin.y + (KeyboardOverlay.currentTop - KeyboardOverlay.newTop)
         
@@ -182,8 +180,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                                                     height: headerView.frame.height - 20))
         label.center = headerView.center
         label.textColor = .gray
-        label.text = "コメント"
-        label.textAlignment = .center
+        label.text = ""
         
         headerView.addSubview(label)
         
@@ -202,11 +199,35 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
-        FirestoreManager.shared.sendComment(name: name, comment: comment, parentId: post.selfId,
-                                            completion: { [weak self] success in
+        guard let commentUserId = UserDefaults.standard.value(forKey: "id") as? String else {
+            return
+        }
+        
+        FirestoreManager.shared.sendComment(name: name, comment: comment, postId: post.postId, postUserId: post.userId, commentUserId: commentUserId, completion: { [weak self] success in
             if success {
                 self?.commentTextField.resignFirstResponder()
                 self?.commentTextField.text = ""
+                
+                FirestoreManager.shared.fetchComment(id: post.postId, completion: { [weak self] (result) in
+                    switch result {
+                    case .success(let comments):
+                        guard !comments.isEmpty else {
+                            self?.tableView.isHidden = true
+                            return
+                        }
+                        
+                        self?.tableView.isHidden = false
+                        self?.comments = comments
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
+                        }
+                        
+                    case .failure(let error):
+                        print("fetchComment failed: \(error)")
+                        self?.tableView.isHidden = true
+                    }
+                })
+                
             } else {
                 let ac = UIAlertController(title: "エラー",
                                            message: "コメントできませんでした。",
@@ -273,7 +294,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         case 1:
             return 40
-        //            return 25
         default:
             return 0
         }
@@ -296,6 +316,21 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             break
         }
         return nil
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        switch section {
+        case 0:
+            return 0
+        case 1:
+            return 50
+        default:
+            return 0
+        }
     }
 }
 

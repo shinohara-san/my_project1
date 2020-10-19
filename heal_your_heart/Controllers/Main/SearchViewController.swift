@@ -147,6 +147,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
+    
 }
 
 extension SearchViewController: PostTableViewCellDelegate {

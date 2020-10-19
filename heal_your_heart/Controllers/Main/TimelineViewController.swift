@@ -24,6 +24,7 @@ class TimelineViewController: UIViewController {
         let label = UILabel()
         label.text = "No Post"
         label.isHidden = true
+        label.backgroundColor = .secondarySystemBackground
         return label
     }()
     
@@ -77,7 +78,7 @@ class TimelineViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                print("failed to get conversations!!: \(error)")
+                print("fetchPostFromFirestore failed: \(error)")
                 self?.tableView.isHidden = true
                 self?.noPostLabel.isHidden = false
             }

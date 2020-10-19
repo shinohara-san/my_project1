@@ -12,5 +12,9 @@ struct Comment {
     var userImage: String?
     var comment: String
     var postDate: Date
+    var commentId: String
+    var isRead: Bool
+    var postUserId: String
     var postId: String
+    var commentUserId: String
 }

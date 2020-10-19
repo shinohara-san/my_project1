@@ -32,7 +32,7 @@ final class FirestoreManager {
                 completion(false)
             } else {
                 guard let ref = ref else {return}
-                self?.db.collection("users").document(ref.documentID).updateData(["selfId": ref.documentID])
+                self?.db.collection("users").document(ref.documentID).updateData(["userId": ref.documentID])
                 //                print("Document added with ID: \(ref!.documentID)")
                 completion(true)
             }
@@ -73,7 +73,7 @@ final class FirestoreManager {
                 completion(false)
             } else {
                 guard let ref = ref else {return}
-                self?.db.collection("posts").document(ref.documentID).updateData(["selfId": ref.documentID])
+                self?.db.collection("posts").document(ref.documentID).updateData(["postId": ref.documentID])
                 completion(true)
             }
         }
@@ -88,12 +88,12 @@ final class FirestoreManager {
             let posts : [Post] = value.compactMap { [weak self] dictionary in
                 
                 guard let userId = dictionary["userId"] as? String,
-                      let username = self?.getUserName(id: userId), ///修正必要！！！
+                      let username = self?.getUserName(id: userId), ///userIdからuserにアクセスしてname取得したい
                       //let imageUrl = dictionary["imageUrl"] as? URL,
                       let genre = dictionary["genre"] as? String,
                       let comment = dictionary["content"] as? String,
                       let postDate = dictionary["date"] as? Timestamp,
-                      let selfId = dictionary["selfId"] as? String else {
+                      let postId = dictionary["postId"] as? String else {
                     print("posts is nil")
                     return nil
                 }
@@ -103,7 +103,7 @@ final class FirestoreManager {
                             genre: genre as String,
                             comment: comment as String,
                             postDate: date as Date,
-                            selfId: selfId,
+                            postId: postId,
                             userId: userId)
             }
             completion(.success(posts))
@@ -126,20 +126,23 @@ final class FirestoreManager {
         return username
     }
     
-    public func sendComment(name: String, comment: String, parentId: String, completion: @escaping (Bool) -> Void) {
+    public func sendComment(name: String, comment: String, postId: String, postUserId: String, commentUserId: String, completion: @escaping (Bool) -> Void) {
         var ref: DocumentReference? = nil
         ref = db.collection("comments").addDocument(data: [
             "name": name,
             "comment": comment,
             "date": Date(),
-            "parentId": parentId
+            "postId": postId,
+            "postUserId": postUserId,
+            "isRead": false,
+            "commentUserId": commentUserId
         ]) { [weak self] err in
             if let err = err {
                 print("Error adding document: \(err)")
                 completion(false)
             } else {
                 guard let ref = ref else {return}
-                self?.db.collection("comments").document(ref.documentID).updateData(["selfId": ref.documentID])
+                self?.db.collection("comments").document(ref.documentID).updateData(["commentId": ref.documentID])
                 completion(true)
             }
         }
@@ -147,7 +150,7 @@ final class FirestoreManager {
     
     public func fetchComment(id: String, completion: @escaping (Result<[Comment], Error>) -> Void){
         db.collection("comments")
-            .whereField("parentId", isEqualTo: id)
+            .whereField("postId", isEqualTo: id)
             .order(by: "date", descending: true).getDocuments { (querySnapshot, err) in
                 
                 guard let value = querySnapshot?.documents else {
@@ -159,8 +162,12 @@ final class FirestoreManager {
                     guard let name = dictionary["name"] as? String,
                           let comment = dictionary["comment"] as? String,
                           let postDate = dictionary["date"] as? Timestamp,
-                          let selfId = dictionary["selfId"] as? String else {
-                        print("comments is nil")
+                          let commentId = dictionary["commentId"] as? String,
+                          let isRead = dictionary["isRead"] as? Bool,
+                          let postUserId = dictionary["postUserId"] as? String,
+                          let postId = dictionary["postId"] as? String ,
+                          let commentUserId = dictionary["commentUserId"] as? String else {
+                        print("fetchComment failed")
                         return nil
                     }
                     
@@ -170,7 +177,11 @@ final class FirestoreManager {
                                    userImage: nil,
                                    comment: comment,
                                    postDate: date,
-                                   postId: selfId)
+                                   commentId: commentId,
+                                   isRead: isRead,
+                                   postUserId: postUserId,
+                                   postId: postId,
+                                   commentUserId: commentUserId)
                 }
                 completion(.success(comments))
             }
@@ -184,7 +195,7 @@ final class FirestoreManager {
             let posts: [Post] = value.compactMap { dictionary in
                 
                 guard let userId = dictionary["userId"] as? String,
-                      let selfId = dictionary["selfId"] as? String,
+                      let postId = dictionary["postId"] as? String,
                       let genre = dictionary["genre"] as? String,
                       let postDate = dictionary["date"] as? Timestamp,
                       let content = dictionary["content"] as? String else {
@@ -197,7 +208,7 @@ final class FirestoreManager {
                             genre: genre,
                             comment: content,
                             postDate: date,
-                            selfId: selfId,
+                            postId: postId,
                             userId: userId)
             }
             completion(.success(posts))
