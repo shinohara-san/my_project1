@@ -176,6 +176,34 @@ final class FirestoreManager {
             }
     }
     
+    public func searchPost(keyword: String, completion: @escaping (Result<[Post], Error>) -> Void){
+        db.collection("posts").whereField("genre", isEqualTo: keyword).order(by: "date", descending: true).getDocuments { (querySnapshot, error) in
+            guard let value = querySnapshot?.documents else {
+                return
+            }
+            let posts: [Post] = value.compactMap { dictionary in
+                
+                guard let userId = dictionary["userId"] as? String,
+                      let selfId = dictionary["selfId"] as? String,
+                      let genre = dictionary["genre"] as? String,
+                      let postDate = dictionary["date"] as? Timestamp,
+                      let content = dictionary["content"] as? String else {
+                    return nil
+                }
+                let date = postDate.dateValue()
+                
+                return Post(userName: userId,
+                            imageUrl: nil,
+                            genre: genre,
+                            comment: content,
+                            postDate: date,
+                            selfId: selfId,
+                            userId: userId)
+            }
+            completion(.success(posts))
+        }
+    }
+    
 }
 
 enum FirestoreError: Error {

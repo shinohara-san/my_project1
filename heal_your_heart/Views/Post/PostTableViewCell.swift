@@ -31,7 +31,6 @@ class PostTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tapGesture.delegate = self
         contentView.addGestureRecognizer(tapGesture)

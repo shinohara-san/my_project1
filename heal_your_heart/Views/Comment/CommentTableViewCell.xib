@@ -35,10 +35,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020/10/01" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9N-0L-1Gm">
-                        <rect key="frame" x="212" y="65" width="100" height="21"/>
+                        <rect key="frame" x="85" y="65" width="227" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="Kft-CN-MRi"/>
-                            <constraint firstAttribute="width" constant="100" id="Ysw-NZ-2Do"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -55,6 +54,7 @@
                     <constraint firstAttribute="trailing" secondItem="Orx-7J-QVg" secondAttribute="trailing" constant="5" id="8Gd-8P-GPl"/>
                     <constraint firstAttribute="bottom" secondItem="b9N-0L-1Gm" secondAttribute="bottom" constant="11" id="BdV-aE-7HY"/>
                     <constraint firstItem="scj-oZ-xIP" firstAttribute="leading" secondItem="wqF-mo-STM" secondAttribute="trailing" constant="5" id="Hjq-xO-M88"/>
+                    <constraint firstItem="b9N-0L-1Gm" firstAttribute="leading" secondItem="wqF-mo-STM" secondAttribute="trailing" constant="10" id="KgE-aV-0TM"/>
                     <constraint firstAttribute="trailing" secondItem="scj-oZ-xIP" secondAttribute="trailing" constant="5" id="R5S-Ep-fVa"/>
                     <constraint firstItem="wqF-mo-STM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="VoL-wb-Uxt"/>
                     <constraint firstAttribute="bottom" secondItem="scj-oZ-xIP" secondAttribute="bottom" constant="46" id="WRV-2n-tI3"/>

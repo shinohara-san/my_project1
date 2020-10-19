@@ -115,15 +115,12 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 self?.tableView.isHidden = false
                 self?.comments = comments
-                print("成功")
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
-                    print("成功")
                 }
                 
             case .failure(let error):
                 print("failed to get conversations!!: \(error)")
-                print("失敗")
                 self?.tableView.isHidden = true
             }
         })
@@ -253,16 +250,16 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         } else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier,
-                                                     for: indexPath) as! CommentTableViewCell
             guard let comments = comments else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: NoCommentTableViewCell.identifier,
                                                          for: indexPath) as! NoCommentTableViewCell
                 tableView.separatorStyle = .none
-                
                 return cell
             }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier,
+                                                     for: indexPath) as! CommentTableViewCell
+            tableView.separatorStyle = .singleLine
             let comment = comments[indexPath.row]
             cell.configure(with: comment)
             cell.selectionStyle = .none
