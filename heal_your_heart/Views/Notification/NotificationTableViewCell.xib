@@ -25,7 +25,7 @@
                             <constraint firstAttribute="height" constant="70" id="gSu-aN-byO"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストさんがあなたの投稿にコメントしました。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYi-pY-OA0">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYi-pY-OA0">
                         <rect key="frame" x="88" y="9" width="224" height="41"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -55,6 +55,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dateLabel" destination="hQ6-sP-wt1" id="uuc-jV-TD8"/>
                 <outlet property="userCommentLabel" destination="iYi-pY-OA0" id="gKQ-Gu-E6K"/>
                 <outlet property="userImage" destination="1gf-Xt-Z0j" id="ZTc-35-ZKx"/>
             </connections>

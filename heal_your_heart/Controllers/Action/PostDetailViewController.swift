@@ -164,9 +164,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func keyboardWillChange(notification:NSNotification) {
         let keyboardHeight = view.height - (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY
-//        print((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)!.cgRectValue.minY)
         KeyboardOverlay.newTop = keyboardHeight
-            commentFieldView.frame.origin.y = commentFieldView.frame.origin.y + (KeyboardOverlay.currentTop - KeyboardOverlay.newTop)
+        commentFieldView.frame.origin.y = commentFieldView.frame.origin.y + (KeyboardOverlay.currentTop - KeyboardOverlay.newTop)
         
         KeyboardOverlay.currentTop = keyboardHeight
     }

@@ -23,6 +23,7 @@ class NotificationTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userCommentLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,7 +35,14 @@ class NotificationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+    }
+    
+    public func configure(userName: String, type: String, date: Date){
+        userCommentLabel.text = "\(userName)さんがあなたの投稿に\(type)しました。"
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        let dateString = formatter.string(from: date)
+        dateLabel.text = dateString
     }
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {

@@ -215,6 +215,47 @@ final class FirestoreManager {
         }
     }
     
+    public func fetchNotification(id: String, completion: @escaping (Result<[Comment], Error>) -> Void){
+        //自分のidを持った、isRead = FalseのCommmentを取得
+        db.collection("comments")
+            .whereField("isRead", isEqualTo: false)
+            .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true).getDocuments { (querySnapshot, err) in
+                
+                guard let value = querySnapshot?.documents else {
+                    return
+                }
+                
+                let comments : [Comment] = value.compactMap { dictionary in
+                    
+                    guard let name = dictionary["name"] as? String,
+                          let comment = dictionary["comment"] as? String,
+                          let postDate = dictionary["date"] as? Timestamp,
+                          let commentId = dictionary["commentId"] as? String,
+                          let isRead = dictionary["isRead"] as? Bool,
+                          let postUserId = dictionary["postUserId"] as? String,
+                          let postId = dictionary["postId"] as? String ,
+                          let commentUserId = dictionary["commentUserId"] as? String else {
+                        print("fetchComment failed")
+                        return nil
+                    }
+                    
+                    let date = postDate.dateValue()
+                    
+                    return Comment(userName: name,
+                                   userImage: nil,
+                                   comment: comment,
+                                   postDate: date,
+                                   commentId: commentId,
+                                   isRead: isRead,
+                                   postUserId: postUserId,
+                                   postId: postId,
+                                   commentUserId: commentUserId)
+                }
+                completion(.success(comments))
+            }
+    }
+    //cellタップでisReadをtrueにする関数
+    //全てisReadをtrueにする関数
 }
 
 enum FirestoreError: Error {
