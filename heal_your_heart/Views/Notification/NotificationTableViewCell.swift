@@ -9,9 +9,12 @@ import UIKit
 
 protocol NotificationTableViewCellDelegate: AnyObject {
     func moveToDetail()
+    func renewIsRead(commentId: String)
 }
 
 class NotificationTableViewCell: UITableViewCell {
+    
+    var comment: Comment?
     
     static let identifier = "NotificationTableViewCell"
     
@@ -48,6 +51,10 @@ class NotificationTableViewCell: UITableViewCell {
     @objc func tapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             delegate?.moveToDetail()
+            guard let comment = comment else {
+                return
+            }
+            delegate?.renewIsRead(commentId: comment.commentId)
         }
     }
     

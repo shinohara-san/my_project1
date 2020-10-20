@@ -9,7 +9,7 @@ import UIKit
 
 class NotificationViewController: UIViewController {
     
-    var notifications = [Comment]()
+    var comments = [Comment]()
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -30,6 +30,10 @@ class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "通知"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "全て既読にする",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapAllRead))
         view.backgroundColor = .systemBackground
         let views = [tableView, noNotificationLabel]
         for x in views {
@@ -59,7 +63,7 @@ class NotificationViewController: UIViewController {
                     self?.noNotificationLabel.isHidden = false
                     return
                 }
-                self?.notifications = comments
+                self?.comments = comments
                 DispatchQueue.main.async {
                     self?.tableView.isHidden = false
                     self?.noNotificationLabel.isHidden = true
@@ -72,26 +76,37 @@ class NotificationViewController: UIViewController {
             }
         })
     }
+    
+    @objc private func didTapAllRead(){
+        //全てを既読にする処理をfirestoremanagerから
+        guard let id = UserDefaults.standard.value(forKey: "id") as? String else {
+            return 
+        }
+        FirestoreManager.shared.makeAllIsReadTrue(id: id)
+    }
 }
 
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notifications.count
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let notification = notifications[indexPath.row]
+        let comment = comments[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.identifier,
                                                  for: indexPath) as! NotificationTableViewCell
+        cell.comment = comment
         cell.delegate = self
-        cell.configure(userName: notification.commentUserId, type: "コメント", date: notification.postDate)
+        cell.configure(userName: comment.commentUserId, type: "コメント", date: comment.postDate)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        //isReadをtrueにする処理
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+////        tableView.deselectRow(at: indexPath, animated: true)
+//        let comment = comments[indexPath.row]
+//        //isReadをtrueにする処理
+//
+//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView()
@@ -103,6 +118,10 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
 }
 
 extension NotificationViewController: NotificationTableViewCellDelegate {
+    func renewIsRead(commentId: String) {
+        FirestoreManager.shared.makeIsReadTrue(commentId: commentId)
+    }
+    
     func moveToDetail() {
         //該当の投稿へ遷移
     }

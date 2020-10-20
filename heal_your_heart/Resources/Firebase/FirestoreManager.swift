@@ -255,7 +255,60 @@ final class FirestoreManager {
             }
     }
     //cellタップでisReadをtrueにする関数
+    public func makeIsReadTrue(commentId: String){
+        let docRef = db.collection("comments").document(commentId)
+        docRef.updateData([
+            "isRead": true
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+
+    }
     //全てisReadをtrueにする関数
+    public func makeAllIsReadTrue(id: String){
+        db.collection("comments").whereField("isRead", isEqualTo: false).whereField("postUserId", isEqualTo: id).getDocuments { [weak self] (querySnapShot, error) in
+            guard let value = querySnapShot?.documents, error == nil else {
+                return
+            }
+            
+            for comment in value {
+                let data = comment.data()
+                guard let id = data["commentId"] as? String else {
+                    return
+                }
+                let docRef = self?.db.collection("comments").document(id)
+                guard let unwrappedRef = docRef else {
+                    return
+                }
+
+                unwrappedRef.updateData([
+                    "isRead": true
+                ]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err)")
+                    } else {
+                        print("Document successfully updated")
+                    }
+                }
+
+            }
+        }
+        
+//        docRef.updateData([
+//            "isRead": true
+//        ]) { err in
+//            if let err = err {
+//                print("Error updating document: \(err)")
+//            } else {
+//                print("Document successfully updated")
+//            }
+//        }
+
+    }
 }
 
 enum FirestoreError: Error {
