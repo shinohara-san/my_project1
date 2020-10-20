@@ -266,7 +266,7 @@ final class FirestoreManager {
                 print("Document successfully updated")
             }
         }
-
+        
     }
     //全てisReadをtrueにする関数
     public func makeAllIsReadTrue(id: String){
@@ -284,7 +284,7 @@ final class FirestoreManager {
                 guard let unwrappedRef = docRef else {
                     return
                 }
-
+                
                 unwrappedRef.updateData([
                     "isRead": true
                 ]) { err in
@@ -294,20 +294,30 @@ final class FirestoreManager {
                         print("Document successfully updated")
                     }
                 }
-
+                
             }
         }
+    }
+    
+    public func getPost(by id: String, completion: @escaping (Result<Post, Error>) -> Void){
+        db.collection("posts").document(id).getDocument { (snap, error) in
+            guard let dictionary = snap?.data(), error == nil else {
+                return
+            }
+            
+            guard let genre = dictionary["genre"] as? String,
+                  let comment = dictionary["content"] as? String,
+                  let date = dictionary["date"] as? Timestamp,
+                  let postId = dictionary["postId"] as? String,
+                  let userId = dictionary["userId"] as? String else {
+                return
+            }
+            let postDate = date.dateValue()
+            
+            let post = Post(userName: userId, imageUrl: nil, genre: genre, comment: comment, postDate: postDate, postId: postId, userId: userId)
+            completion(.success(post))
+        }
         
-//        docRef.updateData([
-//            "isRead": true
-//        ]) { err in
-//            if let err = err {
-//                print("Error updating document: \(err)")
-//            } else {
-//                print("Document successfully updated")
-//            }
-//        }
-
     }
 }
 

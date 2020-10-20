@@ -122,7 +122,10 @@ extension NotificationViewController: NotificationTableViewCellDelegate {
         FirestoreManager.shared.makeIsReadTrue(commentId: commentId)
     }
     
-    func moveToDetail() {
-        //該当の投稿へ遷移
+    func moveToDetail(post: Post) {
+        let vc = PostDetailViewController(post: post)
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
     }
 }

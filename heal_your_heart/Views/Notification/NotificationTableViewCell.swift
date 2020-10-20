@@ -8,7 +8,7 @@
 import UIKit
 
 protocol NotificationTableViewCellDelegate: AnyObject {
-    func moveToDetail()
+    func moveToDetail(post: Post)
     func renewIsRead(commentId: String)
 }
 
@@ -34,10 +34,10 @@ class NotificationTableViewCell: UITableViewCell {
         tapGesture.delegate = self
         contentView.addGestureRecognizer(tapGesture)
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
     }
     
     public func configure(userName: String, type: String, date: Date){
@@ -50,10 +50,20 @@ class NotificationTableViewCell: UITableViewCell {
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
-            delegate?.moveToDetail()
             guard let comment = comment else {
                 return
             }
+            
+            FirestoreManager.shared.getPost(by: comment.postId, completion: { [weak self] result in
+                switch result {
+                case .success(let post):
+                    print(post)
+                    self?.delegate?.moveToDetail(post: post)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            })
+            
             delegate?.renewIsRead(commentId: comment.commentId)
         }
     }
