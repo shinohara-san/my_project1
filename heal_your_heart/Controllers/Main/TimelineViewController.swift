@@ -24,6 +24,7 @@ class TimelineViewController: UIViewController {
         let label = UILabel()
         label.text = "No Post"
         label.isHidden = true
+        label.textAlignment = .center
         label.backgroundColor = .secondarySystemBackground
         return label
     }()

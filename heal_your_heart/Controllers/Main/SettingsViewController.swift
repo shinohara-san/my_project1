@@ -11,7 +11,7 @@ import FirebaseAuth
 class SettingsViewController: UIViewController {
     
     private let sections = ["　一般", "　その他"]
-    private let values = [["プロフィール"], ["利用規約","プライバシーポリシー","ログアウト"]]
+    private let values = [["プロフィール", "自分の投稿一覧"], ["利用規約","プライバシーポリシー","ログアウト"]]
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -88,8 +88,17 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {
         case 0:
+            switch indexPath.row {
+            case 0:
             if let vc = storyboard?.instantiateViewController(identifier: "profileVC") as? ProfileViewController {
                 navigationController?.pushViewController(vc, animated: true)
+            }
+            case 1:
+                if let vc = storyboard?.instantiateViewController(identifier: "myPostVC") as? MyPostViewController {
+                    navigationController?.pushViewController(vc, animated: true)
+                }
+            default:
+                fatalError()
             }
             break
         case 1:
