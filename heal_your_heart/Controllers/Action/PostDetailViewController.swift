@@ -267,7 +267,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             guard let post = post else {return UITableViewCell()}
             
             cell.configure(with: post)
-            
+            cell.post = post
             return cell
         } else {
             guard let comments = comments else {

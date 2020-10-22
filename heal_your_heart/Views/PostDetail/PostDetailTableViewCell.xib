@@ -66,6 +66,9 @@
                             <constraint firstAttribute="width" constant="62" id="bEV-0t-njC"/>
                         </constraints>
                         <state key="normal" title="応援する"/>
+                        <connections>
+                            <action selector="didTapCheer:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="saM-or-tdV"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020/10/01" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ec-Qj-0C1">
                         <rect key="frame" x="205" y="107" width="133" height="21"/>

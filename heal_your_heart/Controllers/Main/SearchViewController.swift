@@ -95,7 +95,6 @@ class SearchViewController: UIViewController {
             
             case .success(let posts):
                 guard !posts.isEmpty else {
-                    print("posts is empty")
                     self?.tableView.isHidden = true
                     self?.noResultLabel.isHidden = false
                     return

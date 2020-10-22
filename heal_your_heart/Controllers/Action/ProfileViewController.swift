@@ -33,7 +33,6 @@ class ProfileViewController: UIViewController {
                 case .success(let url):
                     self?.userImageView.sd_setImage(with: url, completed: nil)
                 case .failure(let error):
-                    print(error)
                     self?.userImageView.image = UIImage(systemName: "person.circle.fill")
                 }
             }

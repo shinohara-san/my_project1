@@ -43,7 +43,7 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @IBAction func didTapCheerButton(_ sender: Any) {
-        //いいねの増減
+        
         guard let userId = UserDefaults.standard.value(forKey: "id") as? String,
               let postId = post?.postId else {
             return
@@ -52,19 +52,18 @@ class PostTableViewCell: UITableViewCell {
         FirestoreManager.shared.checkLikeExist(userId: userId, postId: postId) { likeId in
             
             if let likeId = likeId {
-                FirestoreManager.shared.deleteLike(likeId: likeId)
-                FirestoreManager.shared.showLike(postId: postId) { num in
+                FirestoreManager.shared.deleteLike(likeId: likeId, postId: postId, completion: { num in
                     DispatchQueue.main.async { [weak self] in
                         self?.cheerCountLabel.text = String(num)
                     }
-                }
+                })
             } else {
-                FirestoreManager.shared.addLike(userId: userId, postId: postId)
-                FirestoreManager.shared.showLike(postId: postId) { num in
+                FirestoreManager.shared.addLike(userId: userId, postId: postId, completion: { num in
                     DispatchQueue.main.async { [weak self] in
                         self?.cheerCountLabel.text = String(num)
                     }
-                }
+                })
+                
             }
         }
         

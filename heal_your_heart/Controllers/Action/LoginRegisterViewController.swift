@@ -86,7 +86,6 @@ class LoginRegisterViewController: UIViewController {
                             switch result {
                             case .success(let downloadUrl):
                                 UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
-                                print(downloadUrl)
                             case .failure(let error):
                                 print("Storage manager error: \(error)")
                             }

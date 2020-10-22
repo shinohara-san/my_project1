@@ -57,7 +57,6 @@ class NotificationTableViewCell: UITableViewCell {
             FirestoreManager.shared.getPost(by: comment.postId, completion: { [weak self] result in
                 switch result {
                 case .success(let post):
-                    print(post)
                     self?.delegate?.moveToDetail(post: post)
                 case .failure(let error):
                     print(error.localizedDescription)

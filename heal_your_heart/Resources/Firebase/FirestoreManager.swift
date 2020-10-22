@@ -93,7 +93,6 @@ final class FirestoreManager {
                       let comment = dictionary["content"] as? String,
                       let postDate = dictionary["date"] as? Timestamp,
                       let postId = dictionary["postId"] as? String else {
-                    print("posts is nil")
                     return nil
                 }
                 
@@ -370,7 +369,7 @@ final class FirestoreManager {
         
     }
     
-    public func addLike(userId: String, postId: String){
+    public func addLike(userId: String, postId: String, completion: @escaping (Int) -> Void){
         var ref: DocumentReference? = nil
         ref = db.collection("likes").addDocument(data: [
             "userId": userId,
@@ -380,20 +379,23 @@ final class FirestoreManager {
                 self?.db.collection("likes").document(ref!.documentID).updateData([
                     "likeId" : ref!.documentID
                 ])
-                return
+                self?.showLike(postId: postId, completion: { num in
+                    completion(num)
+                })
             } else {
                 print("addLike failed")
-                return
             }
         }
     }
     
-    public func deleteLike(likeId: String){
-        db.collection("likes").document(likeId).delete() { err in
+    public func deleteLike(likeId: String, postId: String, completion: @escaping (Int) -> Void){
+        db.collection("likes").document(likeId).delete() { [weak self] err in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
-                print("Document successfully removed!")
+                self?.showLike(postId: postId, completion: { num in
+                    completion(num)
+                })
             }
             
         }
