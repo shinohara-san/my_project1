@@ -358,7 +358,6 @@ final class FirestoreManager {
                 
                 for document in querySnapshot!.documents {
                     if document.exists {
-                        print("いいねあり")
                         completion(document.documentID)
                         return
                     }
@@ -396,11 +395,26 @@ final class FirestoreManager {
             } else {
                 print("Document successfully removed!")
             }
+            
         }
     }
     
-    public func showLike(){
+    public func showLike(postId: String, completion: @escaping (Int) -> Void){
         //いいねを表示する関数
+        db.collection("likes").whereField("postId", isEqualTo: postId).getDocuments(completion: {
+            (querySnapshot, err) in
+                guard err == nil else {
+                    print(err?.localizedDescription as Any)
+                    return
+                }
+                
+            if querySnapshot!.documents.isEmpty {
+                completion(0)
+            } else {
+                completion(querySnapshot!.documents.count)
+            }
+        })
+        
     }
 }
 

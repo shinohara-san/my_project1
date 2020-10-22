@@ -130,14 +130,6 @@ extension TimelineViewController: UITableViewDelegate, UITableViewDataSource {
         let post = posts[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
-        FirestoreManager.shared.getUserNameForPost(id: post.userId, completion: { result in
-            switch result {
-            case .success(let name):
-                cell.username = name
-            case .failure(_):
-                cell.username = "ユーザー"
-            }
-        })
         cell.configure(post: post)
         cell.post = post
         cell.delegate = self

@@ -53,10 +53,19 @@ class PostTableViewCell: UITableViewCell {
             
             if let likeId = likeId {
                 FirestoreManager.shared.deleteLike(likeId: likeId)
+                FirestoreManager.shared.showLike(postId: postId) { num in
+                    DispatchQueue.main.async { [weak self] in
+                        self?.cheerCountLabel.text = String(num)
+                    }
+                }
             } else {
                 FirestoreManager.shared.addLike(userId: userId, postId: postId)
+                FirestoreManager.shared.showLike(postId: postId) { num in
+                    DispatchQueue.main.async { [weak self] in
+                        self?.cheerCountLabel.text = String(num)
+                    }
+                }
             }
-            
         }
         
         
@@ -68,6 +77,23 @@ class PostTableViewCell: UITableViewCell {
         formatter.timeStyle = .short
         formatter.dateStyle = .medium
         let dateString = formatter.string(from: post.postDate)
+        
+        FirestoreManager.shared.showLike(postId: post.postId) { num in
+            DispatchQueue.main.async { [weak self] in
+                self?.cheerCountLabel.text = String(num)
+            }
+        }
+        
+        FirestoreManager.shared.getUserNameForPost(id: post.userId, completion: { result in
+            switch result {
+            case .success(let name):
+                DispatchQueue.main.async { [weak self] in
+                    self?.userNameLabel.text = name
+                }
+            case .failure(_):
+                print("getUserName error")
+            }
+        })
         
         DispatchQueue.main.async { [weak self] in
             self?.userNameLabel.text = self?.username
