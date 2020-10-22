@@ -418,6 +418,20 @@ final class FirestoreManager {
         })
         
     }
+    
+    public func getUserEmail(by userId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        db.collection("users").whereField("userId", isEqualTo: userId).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if let email = document["email"] as? String {
+                        completion(.success(email))
+                    }
+                }
+            }
+        }
+    }
 }
 
 enum FirestoreError: Error {

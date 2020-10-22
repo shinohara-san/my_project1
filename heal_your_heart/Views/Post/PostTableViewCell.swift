@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol PostTableViewCellDelegate: AnyObject {
     func moveToDetail(post: Post)
@@ -99,11 +100,27 @@ class PostTableViewCell: UITableViewCell {
             self?.commentGenreLabel.text = post.genre
             self?.commentLabel.text = post.comment
             self?.dateLabel.text = dateString
-            if post.imageUrl != nil {
-                //ユーザー固有の画像
-            } else {
-                self?.userImageView.image = UIImage(systemName: "person.circle")
-            }
+            
+            FirestoreManager.shared.getUserEmail(by: post.userId, completion: { result in
+                switch result {
+                
+                case .success(let email):
+                    let safeEmail = FirestoreManager.safeEmail(emailAdderess: email)
+                    let path = "images/\(safeEmail)"
+                    StorageManager.shared.downloadURL(for: path) { (result) in
+                        switch result {
+                        case .success(let url):
+                            self?.userImageView.sd_setImage(with: url, completed: nil)
+                        case .failure(_):
+                            self?.userImageView.image = UIImage(systemName: "person.circle.fill")
+                        }
+                    }
+                case .failure(_):
+                    self?.userImageView.image = UIImage(systemName: "person.circle.fill")
+                    print("getUserEmail Error")
+                }
+            })
+
         }
         
     }
