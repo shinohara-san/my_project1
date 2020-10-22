@@ -31,6 +31,7 @@ class SearchViewController: UIViewController {
     }()
     
     var posts = [Post]()
+    var usernames = [String]()
     
     private var searchBar: UISearchBar!
     private let pickerView = UIPickerView()
@@ -107,6 +108,7 @@ class SearchViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
+                
             case .failure(let error):
                 print("failed to get posts!!: \(error)")
                 self?.tableView.isHidden = true
@@ -125,6 +127,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
                                                  for: indexPath) as! PostTableViewCell
         let post = posts[indexPath.row]
+        FirestoreManager.shared.getUserNameForPost(id: post.userId, completion: { result in
+            switch result {
+            case .success(let name):
+                cell.username = name
+            case .failure(_):
+                cell.username = "ユーザー"
+            }
+        })
         cell.configure(post: post)
         cell.delegate = self
         cell.post = post

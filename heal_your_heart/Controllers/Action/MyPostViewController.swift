@@ -8,11 +8,10 @@
 import UIKit
 
 class MyPostViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
-//    var posts = [Post]()
-    var posts = [Post(userName: "るい", genre: "人生について", comment: "あああ", postDate: Date(), postId: "fjakkl", userId: "jflaj;fl")]
+    var posts = [Post]()
     
     private let noPostLabel: UILabel = {
         let label = UILabel()
@@ -29,6 +28,7 @@ class MyPostViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(PostTableViewCell.nib(), forCellReuseIdentifier: PostTableViewCell.identifier)
+        
         let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         footer.backgroundColor = .systemGroupedBackground
         tableView.tableFooterView = footer
@@ -36,7 +36,33 @@ class MyPostViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //posts from firestore 値によってtableとlabelの表示を変える
+        guard let id = UserDefaults.standard.value(forKey: "id") as? String else {
+            return
+        }
+        FirestoreManager.shared.getMyPosts(by: id, completion: { [weak self] result in
+            switch result {
+            
+            case .success(let posts):
+                guard !posts.isEmpty else {
+                    print("posts is empty")
+                    self?.tableView.isHidden = true
+                    self?.noPostLabel.isHidden = false
+                    return
+                }
+                
+                self?.noPostLabel.isHidden = true
+                self?.tableView.isHidden = false
+                self?.posts = posts
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("getMyPost failed: \(error)")
+                self?.tableView.isHidden = true
+                self?.noPostLabel.isHidden = false
+            }
+        })
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,6 +81,14 @@ extension MyPostViewController: UITableViewDelegate, UITableViewDataSource {
         let post = posts[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
         cell.configure(post: post)
+        FirestoreManager.shared.getUserNameForPost(id: post.userId, completion: { result in
+            switch result {
+            case .success(let name):
+                cell.username = name
+            case .failure(_):
+                cell.username = "ユーザー"
+            }
+        })
         cell.post = post
         cell.delegate = self
         return cell

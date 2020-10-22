@@ -85,10 +85,9 @@ final class FirestoreManager {
             guard let value = querySnapshot?.documents else {
                 return
             }
-            let posts : [Post] = value.compactMap { [weak self] dictionary in
+            let posts : [Post] = value.compactMap { dictionary in
                 
                 guard let userId = dictionary["userId"] as? String,
-                      let username = self?.getUserName(id: userId), ///userIdからuserにアクセスしてname取得したい
                       //let imageUrl = dictionary["imageUrl"] as? URL,
                       let genre = dictionary["genre"] as? String,
                       let comment = dictionary["content"] as? String,
@@ -97,8 +96,9 @@ final class FirestoreManager {
                     print("posts is nil")
                     return nil
                 }
+                
                 let date = postDate.dateValue()
-                return Post(userName: userId as String,
+                return Post(userName: userId,
                             imageUrl: nil,
                             genre: genre as String,
                             comment: comment as String,
@@ -110,20 +110,19 @@ final class FirestoreManager {
         }
     }
     
-    public func getUserName(id: String) -> String {
-        var username: String = ""
-        db.collection("users").whereField("id", isEqualTo: id).getDocuments() { (querySnapshot, err) in
+    public func getUserNameForPost(id: String, completion: @escaping ((Result<String, Error>) -> Void)) {
+        
+        db.collection("users").whereField("userId", isEqualTo: id).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
                     if let nickname = document["nickname"] as? String {
-                        username = nickname
+                        completion(.success(nickname))
                     }
                 }
             }
         }
-        return username
     }
     
     public func sendComment(name: String, comment: String, postId: String, postUserId: String, commentUserId: String, completion: @escaping (Bool) -> Void) {
@@ -318,6 +317,90 @@ final class FirestoreManager {
             completion(.success(post))
         }
         
+    }
+    
+    public func getMyPosts(by id: String, completion: @escaping (Result<[Post], Error>) -> Void){
+        db.collection("posts").whereField("userId", isEqualTo: id).order(by: "date", descending: true).getDocuments { (snap, error) in
+            guard let value = snap?.documents, error == nil else {
+                return
+            }
+            
+            let posts: [Post] = value.compactMap { dictionary in
+                
+                guard let userId = dictionary["userId"] as? String,
+                      let postId = dictionary["postId"] as? String,
+                      let genre = dictionary["genre"] as? String,
+                      let postDate = dictionary["date"] as? Timestamp,
+                      let content = dictionary["content"] as? String else {
+                    return nil
+                }
+                let date = postDate.dateValue()
+                
+                return Post(userName: userId,
+                            imageUrl: nil,
+                            genre: genre,
+                            comment: content,
+                            postDate: date,
+                            postId: postId,
+                            userId: userId)
+            }
+            completion(.success(posts))
+        }
+    }
+    
+    public func checkLikeExist(userId: String, postId: String, completion: @escaping (String?) -> Void){
+        db.collection("likes").whereField("userId", isEqualTo: userId).whereField("postId", isEqualTo: postId)
+            .getDocuments() { (querySnapshot, err) in
+                guard err == nil else {
+                    print(err?.localizedDescription as Any)
+                    return
+                }
+                
+                for document in querySnapshot!.documents {
+                    if document.exists {
+                        print("いいねあり")
+                        completion(document.documentID)
+                        return
+                    }
+                }
+                
+                if querySnapshot!.documents.isEmpty {
+                    completion(nil)
+                }
+            }
+        
+    }
+    
+    public func addLike(userId: String, postId: String){
+        var ref: DocumentReference? = nil
+        ref = db.collection("likes").addDocument(data: [
+            "userId": userId,
+            "postId": postId
+        ]) { [weak self] error in
+            if error == nil {
+                self?.db.collection("likes").document(ref!.documentID).updateData([
+                    "likeId" : ref!.documentID
+                ])
+                return
+            } else {
+                print("addLike failed")
+                return
+            }
+        }
+    }
+    
+    public func deleteLike(likeId: String){
+        db.collection("likes").document(likeId).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
+    public func showLike(){
+        //いいねを表示する関数
     }
 }
 

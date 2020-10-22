@@ -39,6 +39,7 @@
 		95F9961325273C27008FA3E5 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F9961125273C27008FA3E5 /* NotificationTableViewCell.swift */; };
 		95F9961425273C27008FA3E5 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F9961225273C27008FA3E5 /* NotificationTableViewCell.xib */; };
 		95FA16282540575500E755D7 /* MyPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA16272540575500E755D7 /* MyPostViewController.swift */; };
+		95FA162D2541675000E755D7 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA162C2541675000E755D7 /* Like.swift */; };
 		95FE247C2526F36E00061EBA /* PostDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FE247A2526F36E00061EBA /* PostDetailTableViewCell.swift */; };
 		95FE247D2526F36E00061EBA /* PostDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95FE247B2526F36E00061EBA /* PostDetailTableViewCell.xib */; };
 		95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FE2481252700DA00061EBA /* CommentTableViewCell.swift */; };
@@ -100,6 +101,7 @@
 		95F9961125273C27008FA3E5 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		95F9961225273C27008FA3E5 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		95FA16272540575500E755D7 /* MyPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostViewController.swift; sourceTree = "<group>"; };
+		95FA162C2541675000E755D7 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		95FE247A2526F36E00061EBA /* PostDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewCell.swift; sourceTree = "<group>"; };
 		95FE247B2526F36E00061EBA /* PostDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailTableViewCell.xib; sourceTree = "<group>"; };
 		95FE2481252700DA00061EBA /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				95D378052526EB2300D22385 /* Post.swift */,
 				95F9960C25273949008FA3E5 /* Comment.swift */,
 				9554927B252C262B002C1EF2 /* Profile.swift */,
+				95FA162C2541675000E755D7 /* Like.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 				958A5C3B2528858A00F87BB5 /* FirestoreManager.swift in Sources */,
 				954D2F372524441B00405DEC /* Extensions.swift in Sources */,
 				95C6BC5525242340008B28AD /* SceneDelegate.swift in Sources */,
+				95FA162D2541675000E755D7 /* Like.swift in Sources */,
 				9545219E2535D552005FB9B3 /* NoCommentTableViewCell.swift in Sources */,
 				95D377F72526026E00D22385 /* PostTableViewCell.swift in Sources */,
 				95F9960D25273949008FA3E5 /* Comment.swift in Sources */,

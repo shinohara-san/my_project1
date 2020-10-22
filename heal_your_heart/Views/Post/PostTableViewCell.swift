@@ -17,6 +17,7 @@ class PostTableViewCell: UITableViewCell {
     public weak var delegate: PostTableViewCellDelegate?
     
     var post: Post?
+    var username: String?
     
     static func nib() -> UINib {
         return UINib(nibName: "PostTableViewCell", bundle: nil)
@@ -34,14 +35,31 @@ class PostTableViewCell: UITableViewCell {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tapGesture.delegate = self
         contentView.addGestureRecognizer(tapGesture)
+        
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     @IBAction func didTapCheerButton(_ sender: Any) {
         //いいねの増減
+        guard let userId = UserDefaults.standard.value(forKey: "id") as? String,
+              let postId = post?.postId else {
+            return
+        }
+        
+        FirestoreManager.shared.checkLikeExist(userId: userId, postId: postId) { likeId in
+            
+            if let likeId = likeId {
+                FirestoreManager.shared.deleteLike(likeId: likeId)
+            } else {
+                FirestoreManager.shared.addLike(userId: userId, postId: postId)
+            }
+            
+        }
+        
+        
     }
     
     public func configure(post: Post){
@@ -52,7 +70,7 @@ class PostTableViewCell: UITableViewCell {
         let dateString = formatter.string(from: post.postDate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.userNameLabel.text = post.userName
+            self?.userNameLabel.text = self?.username
             self?.commentGenreLabel.text = post.genre
             self?.commentLabel.text = post.comment
             self?.dateLabel.text = dateString

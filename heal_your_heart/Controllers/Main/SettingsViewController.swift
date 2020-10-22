@@ -23,7 +23,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = "設定"
+        navigationItem.title = "マイページ"
         let views = [tableView]
         for x in views {
             view.addSubview(x)
