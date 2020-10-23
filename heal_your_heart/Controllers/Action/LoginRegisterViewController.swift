@@ -56,6 +56,7 @@ class LoginRegisterViewController: UIViewController {
             return
         }
     }
+    
     @IBAction func didTapRegister(_ sender: Any) {
         guard let email = emailRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let password = passRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -81,6 +82,7 @@ class LoginRegisterViewController: UIViewController {
                     let safeEmail = FirestoreManager.safeEmail(emailAdderess: email)
                     
                     if let image = self?.imageView.image,
+                       image != UIImage(systemName: "person.circle.fill"),
                        let data = image.pngData() {
                         StorageManager.shared.uploadProfilePicture(with: data, fileName: safeEmail) { (result) in
                             switch result {

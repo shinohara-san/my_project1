@@ -10,6 +10,7 @@ import UIKit
 class NotificationViewController: UIViewController {
     
     var comments = [Comment]()
+    var likes = [Like]()
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -75,6 +76,31 @@ class NotificationViewController: UIViewController {
                 self?.noNotificationLabel.isHidden = false
             }
         })
+        //上下二つを融合
+//        fetchcommentでsuccess→likeなしでもtable表示
+//        failure→likeなしでtable非表示、→likeありだとtable表示
+            
+        FirestoreManager.shared.fetchLike(id: id, completion: { [weak self] result in
+            switch result {
+            
+            case .success(let likes):
+                guard !likes.isEmpty else {
+                    self?.tableView.isHidden = true
+                    self?.noNotificationLabel.isHidden = false
+                    return
+                }
+                self?.likes = likes
+                DispatchQueue.main.async {
+                    self?.tableView.isHidden = false
+                    self?.noNotificationLabel.isHidden = true
+                    self?.tableView.reloadData()
+                }
+            case .failure(_):
+                print("fetchLike failed")
+                self?.tableView.isHidden = true
+                self?.noNotificationLabel.isHidden = false
+            }
+        })
     }
     
     @objc private func didTapAllRead(){
@@ -88,25 +114,21 @@ class NotificationViewController: UIViewController {
 
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count
+        return comments.count + likes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let comment = comments[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.identifier,
                                                  for: indexPath) as! NotificationTableViewCell
+        
+        let comment = comments[indexPath.row]
+        let like = likes[indexPath.row]
+        
         cell.comment = comment
         cell.delegate = self
-        cell.configure(userName: comment.commentUserId, type: "コメント", date: comment.postDate)
+        cell.configure(comment: comment)
         return cell
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-////        tableView.deselectRow(at: indexPath, animated: true)
-//        let comment = comments[indexPath.row]
-//        //isReadをtrueにする処理
-//
-//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView()

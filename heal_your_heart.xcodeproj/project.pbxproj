@@ -40,8 +40,6 @@
 		95F9961425273C27008FA3E5 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F9961225273C27008FA3E5 /* NotificationTableViewCell.xib */; };
 		95FA16282540575500E755D7 /* MyPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA16272540575500E755D7 /* MyPostViewController.swift */; };
 		95FA162D2541675000E755D7 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA162C2541675000E755D7 /* Like.swift */; };
-		95FE247C2526F36E00061EBA /* PostDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FE247A2526F36E00061EBA /* PostDetailTableViewCell.swift */; };
-		95FE247D2526F36E00061EBA /* PostDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95FE247B2526F36E00061EBA /* PostDetailTableViewCell.xib */; };
 		95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FE2481252700DA00061EBA /* CommentTableViewCell.swift */; };
 		95FE2484252700DA00061EBA /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95FE2482252700DA00061EBA /* CommentTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -102,8 +100,6 @@
 		95F9961225273C27008FA3E5 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		95FA16272540575500E755D7 /* MyPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostViewController.swift; sourceTree = "<group>"; };
 		95FA162C2541675000E755D7 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
-		95FE247A2526F36E00061EBA /* PostDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewCell.swift; sourceTree = "<group>"; };
-		95FE247B2526F36E00061EBA /* PostDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailTableViewCell.xib; sourceTree = "<group>"; };
 		95FE2481252700DA00061EBA /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		95FE2482252700DA00061EBA /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		A7EAA217CC9EA7002FA95967 /* Pods-heal_your_heartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-heal_your_heartTests.debug.xcconfig"; path = "Target Support Files/Pods-heal_your_heartTests/Pods-heal_your_heartTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,15 +171,6 @@
 			path = Post;
 			sourceTree = "<group>";
 		};
-		954521AF2536B0A0005FB9B3 /* PostDetail */ = {
-			isa = PBXGroup;
-			children = (
-				95FE247A2526F36E00061EBA /* PostDetailTableViewCell.swift */,
-				95FE247B2526F36E00061EBA /* PostDetailTableViewCell.xib */,
-			);
-			path = PostDetail;
-			sourceTree = "<group>";
-		};
 		954521B92536B0C4005FB9B3 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,7 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				954521AB2536B096005FB9B3 /* Post */,
-				954521AF2536B0A0005FB9B3 /* PostDetail */,
 				954521B92536B0C4005FB9B3 /* Comment */,
 				954521BD2536B0D1005FB9B3 /* Notification */,
 				954521C12536B0DC005FB9B3 /* NoComment */,
@@ -461,7 +447,6 @@
 				9545219F2535D552005FB9B3 /* NoCommentTableViewCell.xib in Resources */,
 				95C6BC5F25242343008B28AD /* LaunchScreen.storyboard in Resources */,
 				95FE2484252700DA00061EBA /* CommentTableViewCell.xib in Resources */,
-				95FE247D2526F36E00061EBA /* PostDetailTableViewCell.xib in Resources */,
 				95C6BC5C25242343008B28AD /* Assets.xcassets in Resources */,
 				95C6BC5A25242340008B28AD /* Main.storyboard in Resources */,
 				95F9961425273C27008FA3E5 /* NotificationTableViewCell.xib in Resources */,
@@ -616,7 +601,6 @@
 				95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */,
 				9554927C252C262B002C1EF2 /* Profile.swift in Sources */,
 				954D2F092524283100405DEC /* TimelineViewController.swift in Sources */,
-				95FE247C2526F36E00061EBA /* PostDetailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

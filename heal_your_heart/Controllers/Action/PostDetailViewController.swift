@@ -30,8 +30,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(PostDetailTableViewCell.nib(),
-                           forCellReuseIdentifier: PostDetailTableViewCell.identifier)
+        tableView.register(PostTableViewCell.nib(),
+                           forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.register(CommentTableViewCell.nib(),
                            forCellReuseIdentifier: CommentTableViewCell.identifier)
         tableView.register(NoCommentTableViewCell.nib(),
@@ -261,12 +261,12 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PostDetailTableViewCell.identifier,
-                                                     for: indexPath) as! PostDetailTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
+                                                     for: indexPath) as! PostTableViewCell
             cell.selectionStyle = .none
             guard let post = post else {return UITableViewCell()}
             
-            cell.configure(with: post)
+            cell.configure(post: post)
             cell.post = post
             return cell
         } else {

@@ -42,10 +42,10 @@ class CommentTableViewCell: UITableViewCell {
         let dateString = formatter.string(from: comment.postDate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.userNameLabel.text = comment.userName
+            self?.userNameLabel.text = comment.commentUserId
             self?.commentLabel.text = comment.comment
             self?.dateLabel.text = dateString
-            self?.userImageLabel.image = UIImage(systemName: "person.circle")
+            self?.userImageLabel.image = UIImage(systemName: "person.circle.fill")
         }
     }
     

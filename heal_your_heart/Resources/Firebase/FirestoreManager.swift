@@ -157,8 +157,7 @@ final class FirestoreManager {
                 
                 let comments : [Comment] = value.compactMap { dictionary in
                     
-                    guard let name = dictionary["name"] as? String,
-                          let comment = dictionary["comment"] as? String,
+                    guard let comment = dictionary["comment"] as? String,
                           let postDate = dictionary["date"] as? Timestamp,
                           let commentId = dictionary["commentId"] as? String,
                           let isRead = dictionary["isRead"] as? Bool,
@@ -171,9 +170,7 @@ final class FirestoreManager {
                     
                     let date = postDate.dateValue()
                     
-                    return Comment(userName: name,
-                                   userImage: nil,
-                                   comment: comment,
+                    return Comment(comment: comment,
                                    postDate: date,
                                    commentId: commentId,
                                    isRead: isRead,
@@ -225,8 +222,7 @@ final class FirestoreManager {
                 
                 let comments : [Comment] = value.compactMap { dictionary in
                     
-                    guard let name = dictionary["name"] as? String,
-                          let comment = dictionary["comment"] as? String,
+                    guard let comment = dictionary["comment"] as? String,
                           let postDate = dictionary["date"] as? Timestamp,
                           let commentId = dictionary["commentId"] as? String,
                           let isRead = dictionary["isRead"] as? Bool,
@@ -239,9 +235,7 @@ final class FirestoreManager {
                     
                     let date = postDate.dateValue()
                     
-                    return Comment(userName: name,
-                                   userImage: nil,
-                                   comment: comment,
+                    return Comment(comment: comment,
                                    postDate: date,
                                    commentId: commentId,
                                    isRead: isRead,
@@ -252,7 +246,41 @@ final class FirestoreManager {
                 completion(.success(comments))
             }
     }
-    //cellタップでisReadをtrueにする関数
+    
+    public func fetchLike(id: String, completion: @escaping (Result<[Like], Error>) -> Void){
+        //自分のidを持った、isRead = FalseのLikeを取得
+        db.collection("likes")
+            .whereField("isRead", isEqualTo: false)
+            .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true).getDocuments { (querySnapshot, err) in
+                
+                guard let value = querySnapshot?.documents else {
+                    return
+                }
+                
+                let comments : [Like] = value.compactMap { dictionary in
+                    guard let likeDate = dictionary["likeDate"] as? Timestamp,
+                          let postId = dictionary["postId"] as? String,
+                          let isRead = dictionary["isRead"] as? Bool,
+                          let postUserId = dictionary["postUserId"] as? String,
+                          let likeId = dictionary["likeId"] as? String ,
+                          let userId = dictionary["userId"] as? String else {
+                        print("fetchComment failed")
+                        return nil
+                    }
+                    
+                    let date = likeDate.dateValue()
+                    
+                    return Like(userId: userId,
+                                postId: postId,
+                                likeId: likeId,
+                                likeDate: date,
+                                isRead: isRead,
+                                postUserId: postUserId)
+                }
+                completion(.success(comments))
+            }
+    }
+    
     public func makeIsReadTrue(commentId: String){
         let docRef = db.collection("comments").document(commentId)
         docRef.updateData([
@@ -369,23 +397,49 @@ final class FirestoreManager {
         
     }
     
-    public func addLike(userId: String, postId: String, completion: @escaping (Int) -> Void){
-        var ref: DocumentReference? = nil
-        ref = db.collection("likes").addDocument(data: [
-            "userId": userId,
-            "postId": postId
-        ]) { [weak self] error in
-            if error == nil {
-                self?.db.collection("likes").document(ref!.documentID).updateData([
-                    "likeId" : ref!.documentID
-                ])
-                self?.showLike(postId: postId, completion: { num in
-                    completion(num)
-                })
+    public func getPostUserId(by postId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        db.collection("posts").whereField("postId", isEqualTo: postId).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
             } else {
-                print("addLike failed")
+                for document in querySnapshot!.documents {
+                    if let userId = document["userId"] as? String {
+                        completion(.success(userId))
+                    }
+                }
             }
         }
+    }
+    
+    public func addLike(userId: String, postId: String, completion: @escaping (Int) -> Void){
+        getPostUserId(by: postId, completion: { [weak self] result in
+            switch result {
+            case .success(let postUserId):
+                var ref: DocumentReference? = nil
+                ref = self?.db.collection("likes").addDocument(data: [
+                    "userId": userId,
+                    "postId": postId,
+                    "likeDate": Date(),
+                    "isRead": false,
+                    "postUserId": postUserId
+                ]) { [weak self] error in
+                    if error == nil {
+                        self?.db.collection("likes").document(ref!.documentID).updateData([
+                            "likeId" : ref!.documentID
+                        ])
+                        self?.showLike(postId: postId, completion: { num in
+                            completion(num)
+                        })
+                    } else {
+                        print("addLike failed")
+                    }
+                }
+            case .failure(_):
+                print("getPostUserId failed")
+            }
+        })
+        
+        
     }
     
     public func deleteLike(likeId: String, postId: String, completion: @escaping (Int) -> Void){
@@ -402,14 +456,13 @@ final class FirestoreManager {
     }
     
     public func showLike(postId: String, completion: @escaping (Int) -> Void){
-        //いいねを表示する関数
         db.collection("likes").whereField("postId", isEqualTo: postId).getDocuments(completion: {
             (querySnapshot, err) in
-                guard err == nil else {
-                    print(err?.localizedDescription as Any)
-                    return
-                }
-                
+            guard err == nil else {
+                print(err?.localizedDescription as Any)
+                return
+            }
+            
             if querySnapshot!.documents.isEmpty {
                 completion(0)
             } else {

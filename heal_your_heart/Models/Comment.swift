@@ -8,8 +8,6 @@
 import Foundation
 
 struct Comment {
-    var userName: String
-    var userImage: String?
     var comment: String
     var postDate: Date
     var commentId: String

@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController {
                 switch result {
                 case .success(let url):
                     self?.userImageView.sd_setImage(with: url, completed: nil)
-                case .failure(let error):
+                case .failure(_):
                     self?.userImageView.image = UIImage(systemName: "person.circle.fill")
                 }
             }

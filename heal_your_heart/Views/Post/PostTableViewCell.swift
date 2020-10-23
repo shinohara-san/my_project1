@@ -64,11 +64,8 @@ class PostTableViewCell: UITableViewCell {
                         self?.cheerCountLabel.text = String(num)
                     }
                 })
-                
             }
         }
-        
-        
     }
     
     public func configure(post: Post){

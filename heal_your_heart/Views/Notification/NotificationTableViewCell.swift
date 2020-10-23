@@ -40,12 +40,43 @@ class NotificationTableViewCell: UITableViewCell {
         
     }
     
-    public func configure(userName: String, type: String, date: Date){
-        userCommentLabel.text = "\(userName)さんがあなたの投稿に\(type)しました。"
+    public func configure(comment: Comment){
+        
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        let dateString = formatter.string(from: date)
+        let dateString = formatter.string(from: comment.postDate)
         dateLabel.text = dateString
+        
+        FirestoreManager.shared.getUserNameForPost(id: comment.commentUserId, completion: { result in
+            switch result {
+            case .success(let name):
+                DispatchQueue.main.async { [weak self] in
+                    self?.userCommentLabel.text = "\(name)さんがあなたの投稿にコメントしました。"
+                }
+            case .failure(_):
+                print("getUserName error")
+            }
+        })
+        
+        FirestoreManager.shared.getUserEmail(by: comment.commentUserId, completion: {[weak self] result in
+            switch result {
+            
+            case .success(let email):
+                let safeEmail = FirestoreManager.safeEmail(emailAdderess: email)
+                let path = "images/\(safeEmail)"
+                StorageManager.shared.downloadURL(for: path) { [weak self] result in
+                    switch result {
+                    case .success(let url):
+                        self?.userImage.sd_setImage(with: url, completed: nil)
+                    case .failure(_):
+                        self?.userImage.image = UIImage(systemName: "person.circle.fill")
+                    }
+                }
+            case .failure(_):
+                self?.userImage.image = UIImage(systemName: "person.circle.fill")
+                print("getUserEmail Error")
+            }
+        })
     }
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {

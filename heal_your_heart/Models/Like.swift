@@ -11,4 +11,7 @@ struct Like {
     var userId: String
     var postId: String
     var likeId: String
+    var likeDate: Date
+    var isRead: Bool
+    var postUserId: String
 }
