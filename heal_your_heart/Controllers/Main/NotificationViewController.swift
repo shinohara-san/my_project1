@@ -9,7 +9,7 @@ import UIKit
 
 class NotificationViewController: UIViewController {
     
-    var notifications = [Comment]()
+    var notifications = [Notification]()
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -110,7 +110,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         
         let notification = notifications[indexPath.row]
         cell.delegate = self
-        cell.configure(notification: notification, postDate: notification.postDate, actionUserId: notification.commentUserId)
+        cell.configure(notification: notification, postDate: notification.date, actionUserId: notification.actionUserId)
         return cell
     }
     

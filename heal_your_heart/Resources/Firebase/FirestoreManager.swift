@@ -210,20 +210,20 @@ final class FirestoreManager {
         }
     }
     
-    public func fetchNotification(id: String, completion: @escaping (Result<[Comment], Error>) -> Void){
+    public func fetchNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
             //自分のidを持った、isRead = FalseのCommmentを取得
             db.collection("comments")
                 .whereField("isRead", isEqualTo: false)
-                .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true).getDocuments { (querySnapshot, err) in
+                .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true)
+                .getDocuments { (querySnapshot, err) in
                     
                     guard let value = querySnapshot?.documents else {
                         return
                     }
                     
-                    let comments : [Comment] = value.compactMap { dictionary in
+                    let comments : [Notification] = value.compactMap { dictionary in
                         
-                        guard let comment = dictionary["comment"] as? String,
-                              let postDate = dictionary["date"] as? Timestamp,
+                        guard let postDate = dictionary["date"] as? Timestamp,
                               let commentId = dictionary["commentId"] as? String,
                               let isRead = dictionary["isRead"] as? Bool,
                               let postUserId = dictionary["postUserId"] as? String,
@@ -235,13 +235,12 @@ final class FirestoreManager {
                         
                         let date = postDate.dateValue()
                         
-                        return Comment(comment: comment,
-                                       postDate: date,
-                                       commentId: commentId,
-                                       isRead: isRead,
-                                       postUserId: postUserId,
-                                       postId: postId,
-                                       commentUserId: commentUserId)
+                        return Notification(actionUserId: commentUserId,
+                                            notificationId: commentId,
+                                            date: date,
+                                            isRead: isRead,
+                                            postId: postId,
+                                            postUserId: postUserId)
                     }
                     completion(.success(comments))
                 }

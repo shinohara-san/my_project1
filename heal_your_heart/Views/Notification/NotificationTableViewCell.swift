@@ -14,7 +14,7 @@ protocol NotificationTableViewCellDelegate: AnyObject {
 
 class NotificationTableViewCell: UITableViewCell {
     
-    var notification: Comment?
+    var notification: Notification?
     
     static let identifier = "NotificationTableViewCell"
     
@@ -40,7 +40,7 @@ class NotificationTableViewCell: UITableViewCell {
         
     }
     
-    public func configure(notification: Comment, postDate: Date, actionUserId: String){
+    public func configure(notification: Notification, postDate: Date, actionUserId: String){
         
         self.notification = notification
         
@@ -96,7 +96,7 @@ class NotificationTableViewCell: UITableViewCell {
                 }
             })
             
-            delegate?.renewIsRead(commentId: notification.commentId)
+            delegate?.renewIsRead(commentId: notification.notificationId)
         }
     }
     
