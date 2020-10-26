@@ -40,6 +40,7 @@
 		95F9961425273C27008FA3E5 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F9961225273C27008FA3E5 /* NotificationTableViewCell.xib */; };
 		95FA16282540575500E755D7 /* MyPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA16272540575500E755D7 /* MyPostViewController.swift */; };
 		95FA162D2541675000E755D7 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA162C2541675000E755D7 /* Like.swift */; };
+		95FA16352542C03B00E755D7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA16342542C03B00E755D7 /* Notification.swift */; };
 		95FE2483252700DA00061EBA /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FE2481252700DA00061EBA /* CommentTableViewCell.swift */; };
 		95FE2484252700DA00061EBA /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95FE2482252700DA00061EBA /* CommentTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		95F9961225273C27008FA3E5 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		95FA16272540575500E755D7 /* MyPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostViewController.swift; sourceTree = "<group>"; };
 		95FA162C2541675000E755D7 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
+		95FA16342542C03B00E755D7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		95FE2481252700DA00061EBA /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		95FE2482252700DA00061EBA /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		A7EAA217CC9EA7002FA95967 /* Pods-heal_your_heartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-heal_your_heartTests.debug.xcconfig"; path = "Target Support Files/Pods-heal_your_heartTests/Pods-heal_your_heartTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				95F9960C25273949008FA3E5 /* Comment.swift */,
 				9554927B252C262B002C1EF2 /* Profile.swift */,
 				95FA162C2541675000E755D7 /* Like.swift */,
+				95FA16342542C03B00E755D7 /* Notification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				95C6BCAA2524251A008B28AD /* PostViewController.swift in Sources */,
 				954D2F2425243E0200405DEC /* SearchViewController.swift in Sources */,
 				9533BE6F252C37D0005068DD /* ProfileViewController.swift in Sources */,
+				95FA16352542C03B00E755D7 /* Notification.swift in Sources */,
 				954D2F2925243E1700405DEC /* NotificationViewController.swift in Sources */,
 				95D378062526EB2300D22385 /* Post.swift in Sources */,
 				95F9961325273C27008FA3E5 /* NotificationTableViewCell.swift in Sources */,

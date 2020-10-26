@@ -9,8 +9,7 @@ import UIKit
 
 class NotificationViewController: UIViewController {
     
-    var comments = [Comment]()
-    var likes = [Like]()
+    var notifications = [Comment]()
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -27,7 +26,7 @@ class NotificationViewController: UIViewController {
         label.isHidden = true
         return label
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "通知"
@@ -58,47 +57,34 @@ class NotificationViewController: UIViewController {
         FirestoreManager.shared.fetchNotification(id: id, completion: { [weak self] result in
             switch result {
             
-            case .success(let comments):
-                guard !comments.isEmpty else {
+            case .success(let notifications):
+                //                print("NotificationVC: \(notifications)")
+                guard !notifications.isEmpty else {
                     self?.tableView.isHidden = true
                     self?.noNotificationLabel.isHidden = false
                     return
                 }
-                self?.comments = comments
+                
+                self?.notifications = notifications
                 DispatchQueue.main.async {
                     self?.tableView.isHidden = false
                     self?.noNotificationLabel.isHidden = true
                     self?.tableView.reloadData()
                 }
+                
             case .failure(let error):
                 print("fetchNotification failed: \(error)")
                 self?.tableView.isHidden = true
                 self?.noNotificationLabel.isHidden = false
             }
         })
-        //上下二つを融合
-//        fetchcommentでsuccess→likeなしでもtable表示
-//        failure→likeなしでtable非表示、→likeありだとtable表示
-            
+        
         FirestoreManager.shared.fetchLike(id: id, completion: { [weak self] result in
             switch result {
-            
             case .success(let likes):
-                guard !likes.isEmpty else {
-                    self?.tableView.isHidden = true
-                    self?.noNotificationLabel.isHidden = false
-                    return
-                }
-                self?.likes = likes
-                DispatchQueue.main.async {
-                    self?.tableView.isHidden = false
-                    self?.noNotificationLabel.isHidden = true
-                    self?.tableView.reloadData()
-                }
+                print("likes: \(likes)")
             case .failure(_):
-                print("fetchLike failed")
-                self?.tableView.isHidden = true
-                self?.noNotificationLabel.isHidden = false
+                print("Fetchlike failed")
             }
         })
     }
@@ -113,20 +99,18 @@ class NotificationViewController: UIViewController {
 }
 
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count + likes.count
+        return notifications.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.identifier,
                                                  for: indexPath) as! NotificationTableViewCell
         
-        let comment = comments[indexPath.row]
-        let like = likes[indexPath.row]
-        
-        cell.comment = comment
+        let notification = notifications[indexPath.row]
         cell.delegate = self
-        cell.configure(comment: comment)
+        cell.configure(notification: notification, postDate: notification.postDate, actionUserId: notification.commentUserId)
         return cell
     }
     

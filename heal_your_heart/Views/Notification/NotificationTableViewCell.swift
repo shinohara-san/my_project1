@@ -14,7 +14,7 @@ protocol NotificationTableViewCellDelegate: AnyObject {
 
 class NotificationTableViewCell: UITableViewCell {
     
-    var comment: Comment?
+    var notification: Comment?
     
     static let identifier = "NotificationTableViewCell"
     
@@ -40,14 +40,16 @@ class NotificationTableViewCell: UITableViewCell {
         
     }
     
-    public func configure(comment: Comment){
+    public func configure(notification: Comment, postDate: Date, actionUserId: String){
+        
+        self.notification = notification
         
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        let dateString = formatter.string(from: comment.postDate)
+        let dateString = formatter.string(from: postDate)
         dateLabel.text = dateString
         
-        FirestoreManager.shared.getUserNameForPost(id: comment.commentUserId, completion: { result in
+        FirestoreManager.shared.getUserNameForPost(id: actionUserId, completion: { result in
             switch result {
             case .success(let name):
                 DispatchQueue.main.async { [weak self] in
@@ -58,7 +60,7 @@ class NotificationTableViewCell: UITableViewCell {
             }
         })
         
-        FirestoreManager.shared.getUserEmail(by: comment.commentUserId, completion: {[weak self] result in
+        FirestoreManager.shared.getUserEmail(by: actionUserId, completion: {[weak self] result in
             switch result {
             
             case .success(let email):
@@ -81,11 +83,11 @@ class NotificationTableViewCell: UITableViewCell {
     
     @objc func tapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
-            guard let comment = comment else {
+            guard let notification = notification else {
                 return
             }
             
-            FirestoreManager.shared.getPost(by: comment.postId, completion: { [weak self] result in
+            FirestoreManager.shared.getPost(by: notification.postId, completion: { [weak self] result in
                 switch result {
                 case .success(let post):
                     self?.delegate?.moveToDetail(post: post)
@@ -94,7 +96,7 @@ class NotificationTableViewCell: UITableViewCell {
                 }
             })
             
-            delegate?.renewIsRead(commentId: comment.commentId)
+            delegate?.renewIsRead(commentId: notification.commentId)
         }
     }
     
