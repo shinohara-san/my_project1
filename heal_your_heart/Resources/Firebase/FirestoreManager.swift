@@ -211,40 +211,40 @@ final class FirestoreManager {
     }
     
     public func fetchCommentForNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
-            //自分のidを持った、isRead = FalseのCommmentを取得
-            db.collection("comments")
-                .whereField("isRead", isEqualTo: false)
-                .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true)
-                .getDocuments { (querySnapshot, err) in
-                    
-                    guard let value = querySnapshot?.documents else {
-                        return
-                    }
-                    
-                    let comments : [Notification] = value.compactMap { dictionary in
-                        
-                        guard let postDate = dictionary["date"] as? Timestamp,
-                              let commentId = dictionary["commentId"] as? String,
-                              let isRead = dictionary["isRead"] as? Bool,
-                              let postUserId = dictionary["postUserId"] as? String,
-                              let postId = dictionary["postId"] as? String ,
-                              let commentUserId = dictionary["commentUserId"] as? String else {
-                            print("fetchComment failed")
-                            return nil
-                        }
-                        
-                        let date = postDate.dateValue()
-                        
-                        return Notification(actionUserId: commentUserId,
-                                            notificationId: commentId,
-                                            date: date,
-                                            isRead: isRead,
-                                            postId: postId,
-                                            postUserId: postUserId)
-                    }
-                    completion(.success(comments))
+        //自分のidを持った、isRead = FalseのCommmentを取得
+        db.collection("comments")
+            .whereField("isRead", isEqualTo: false)
+            .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true)
+            .getDocuments { (querySnapshot, err) in
+                
+                guard let value = querySnapshot?.documents else {
+                    return
                 }
-        }
+                
+                let comments : [Notification] = value.compactMap { dictionary in
+                    
+                    guard let postDate = dictionary["date"] as? Timestamp,
+                          let commentId = dictionary["commentId"] as? String,
+                          let isRead = dictionary["isRead"] as? Bool,
+                          let postUserId = dictionary["postUserId"] as? String,
+                          let postId = dictionary["postId"] as? String ,
+                          let commentUserId = dictionary["commentUserId"] as? String else {
+                        print("fetchComment failed")
+                        return nil
+                    }
+                    
+                    let date = postDate.dateValue()
+                    
+                    return Notification(actionUserId: commentUserId,
+                                        notificationId: commentId,
+                                        date: date,
+                                        isRead: isRead,
+                                        postId: postId,
+                                        postUserId: postUserId)
+                }
+                completion(.success(comments))
+            }
+    }
     
     public func fetchLikeForNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
         //自分のidを持った、isRead = FalseのLikeを取得
@@ -281,6 +281,77 @@ final class FirestoreManager {
             }
     }
     
+    public func fetchNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
+        var notifications = [Notification]()
+        //自分のidを持った、isRead = FalseのLikeを取得
+        
+        db.collection("comments")
+            .whereField("isRead", isEqualTo: false)
+            .whereField("postUserId", isEqualTo: id).order(by: "date", descending: true)
+            .getDocuments { [weak self](querySnapshot, err) in
+                
+                guard let value = querySnapshot?.documents else {
+                    return
+                }
+                
+                let comments : [Notification] = value.compactMap { dictionary in
+                    
+                    guard let postDate = dictionary["date"] as? Timestamp,
+                          let commentId = dictionary["commentId"] as? String,
+                          let isRead = dictionary["isRead"] as? Bool,
+                          let postUserId = dictionary["postUserId"] as? String,
+                          let postId = dictionary["postId"] as? String ,
+                          let commentUserId = dictionary["commentUserId"] as? String else {
+                        print("fetchComment failed")
+                        return nil
+                    }
+                    
+                    let date = postDate.dateValue()
+                    
+                    return Notification(actionUserId: commentUserId,
+                                        notificationId: commentId,
+                                        date: date,
+                                        isRead: isRead,
+                                        postId: postId,
+                                        postUserId: postUserId)
+                }
+                notifications.append(contentsOf: comments)
+                
+                self?.db.collection("likes")
+                    .whereField("isRead", isEqualTo: false)
+                    .whereField("postUserId", isEqualTo: id).order(by: "likeDate", descending: true).getDocuments { (querySnapshot, err) in
+                        
+                        guard let value = querySnapshot?.documents else {
+                            return
+                        }
+                        
+                        let likes : [Notification] = value.compactMap { dictionary in
+                            guard let likeDate = dictionary["likeDate"] as? Timestamp,
+                                  let postId = dictionary["postId"] as? String,
+                                  let isRead = dictionary["isRead"] as? Bool,
+                                  let postUserId = dictionary["postUserId"] as? String,
+                                  let likeId = dictionary["likeId"] as? String ,
+                                  let userId = dictionary["userId"] as? String else {
+                                print("fetchLike failed")
+                                return nil
+                            }
+                            
+                            let date = likeDate.dateValue()
+                            let like = Notification(actionUserId: userId,
+                                                    notificationId: likeId,
+                                                    date: date,
+                                                    isRead: isRead,
+                                                    postId: postId,
+                                                    postUserId: postUserId)
+                            
+                            return like
+                        }
+                        notifications.append(contentsOf: likes)
+                    }
+                completion(.success(notifications))
+            }
+    }
+    
     public func makeIsReadTrue(commentId: String){
         let docRef = db.collection("comments").document(commentId)
         docRef.updateData([
@@ -294,8 +365,8 @@ final class FirestoreManager {
         }
         
     }
-    //全てisReadをtrueにする関数
-    public func makeAllIsReadTrue(id: String){
+    //全てisReadをtrueにする関数 likeもいる！！！！！！！！！！！！！！！！！！！！！！！！
+    public func makeAllIsReadTrue(id: String, completion: @escaping (Bool) -> Void){
         db.collection("comments").whereField("isRead", isEqualTo: false).whereField("postUserId", isEqualTo: id).getDocuments { [weak self] (querySnapShot, error) in
             guard let value = querySnapShot?.documents, error == nil else {
                 return
@@ -318,6 +389,7 @@ final class FirestoreManager {
                         print("Error updating document: \(err)")
                     } else {
                         print("Document successfully updated")
+                        completion(true)
                     }
                 }
                 

@@ -55,46 +55,7 @@ class NotificationViewController: UIViewController {
             return
         }
         
-        FirestoreManager.shared.fetchCommentForNotification(id: id, completion: { [weak self] result in
-            switch result {
-            
-            case .success(let comments):
-                self?.notifications = [Notification]()
-                self?.notifications += comments
-                self?.fetchLike(id: id)
-            case .failure(_):
-                print("fetchCommentForNotification failed")
-                self?.fetchLike(id: id)
-            }
-            
-        })
-        
-        if notifications.count == 0 {
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.isHidden = true
-                self?.noNotificationLabel.isHidden = false
-            }
-            
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.isHidden = false
-                self?.noNotificationLabel.isHidden = true
-                self?.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func fetchLike(id: String){
-        FirestoreManager.shared.fetchLikeForNotification(id: id, completion: { [weak self] result in
-            switch result {
-            
-            case .success(let likes):
-                self?.notifications += likes
-            case .failure(_):
-                print("fetchLikeForNotification failed")
-            }
-            
-        })
+        update(id: id)
     }
     
     @objc private func didTapAllRead(){
@@ -102,8 +63,38 @@ class NotificationViewController: UIViewController {
         guard let id = UserDefaults.standard.value(forKey: "id") as? String else {
             return 
         }
-        FirestoreManager.shared.makeAllIsReadTrue(id: id)
+        FirestoreManager.shared.makeAllIsReadTrue(id: id, completion: { [weak self] result in
+            if result {
+                self?.update(id: id)
+            }
+        })
+        
     }
+    
+    private func update(id: String){
+        FirestoreManager.shared.fetchNotification(id: id, completion: { [weak self] result in
+            switch result {
+            
+            case .success(let notifications):
+                DispatchQueue.main.async {
+                    guard !notifications.isEmpty else {
+                        self?.tableView.isHidden = true
+                        self?.noNotificationLabel.isHidden = false
+                        return
+                    }
+                    self?.notifications = notifications
+                    DispatchQueue.main.async {
+                        self?.tableView.isHidden = false
+                        self?.noNotificationLabel.isHidden = true
+                        self?.tableView.reloadData()
+                    }
+                }
+            case .failure(_):
+                print("fail")
+            }
+        })
+    }
+
 }
 
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
