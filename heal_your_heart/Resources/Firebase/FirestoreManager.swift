@@ -210,7 +210,7 @@ final class FirestoreManager {
         }
     }
     
-    public func fetchNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
+    public func fetchCommentForNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
             //自分のidを持った、isRead = FalseのCommmentを取得
             db.collection("comments")
                 .whereField("isRead", isEqualTo: false)
@@ -246,7 +246,7 @@ final class FirestoreManager {
                 }
         }
     
-    public func fetchLike(id: String, completion: @escaping (Result<[Like], Error>) -> Void){
+    public func fetchLikeForNotification(id: String, completion: @escaping (Result<[Notification], Error>) -> Void){
         //自分のidを持った、isRead = FalseのLikeを取得
         db.collection("likes")
             .whereField("isRead", isEqualTo: false)
@@ -256,24 +256,24 @@ final class FirestoreManager {
                     return
                 }
                 
-                let likes : [Like] = value.compactMap { dictionary in
+                let likes : [Notification] = value.compactMap { dictionary in
                     guard let likeDate = dictionary["likeDate"] as? Timestamp,
                           let postId = dictionary["postId"] as? String,
                           let isRead = dictionary["isRead"] as? Bool,
                           let postUserId = dictionary["postUserId"] as? String,
                           let likeId = dictionary["likeId"] as? String ,
                           let userId = dictionary["userId"] as? String else {
-                        print("fetchComment failed")
+                        print("fetchLike failed")
                         return nil
                     }
                     
                     let date = likeDate.dateValue()
-                    let like = Like(userId: userId,
-                                    postId: postId,
-                                    likeId: likeId,
-                                    likeDate: date,
-                                    isRead: isRead,
-                                    postUserId: postUserId)
+                    let like = Notification(actionUserId: userId,
+                                            notificationId: likeId,
+                                            date: date,
+                                            isRead: isRead,
+                                            postId: postId,
+                                            postUserId: postUserId)
                     
                     return like
                 }

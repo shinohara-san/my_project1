@@ -54,38 +54,46 @@ class NotificationViewController: UIViewController {
         guard let id = UserDefaults.standard.value(forKey: "id") as? String else {
             return
         }
-        FirestoreManager.shared.fetchNotification(id: id, completion: { [weak self] result in
+        
+        FirestoreManager.shared.fetchCommentForNotification(id: id, completion: { [weak self] result in
             switch result {
             
-            case .success(let notifications):
-                //                print("NotificationVC: \(notifications)")
-                guard !notifications.isEmpty else {
-                    self?.tableView.isHidden = true
-                    self?.noNotificationLabel.isHidden = false
-                    return
-                }
-                
-                self?.notifications = notifications
-                DispatchQueue.main.async {
-                    self?.tableView.isHidden = false
-                    self?.noNotificationLabel.isHidden = true
-                    self?.tableView.reloadData()
-                }
-                
-            case .failure(let error):
-                print("fetchNotification failed: \(error)")
+            case .success(let comments):
+                self?.notifications = [Notification]()
+                self?.notifications += comments
+                self?.fetchLike(id: id)
+            case .failure(_):
+                print("fetchCommentForNotification failed")
+                self?.fetchLike(id: id)
+            }
+            
+        })
+        
+        if notifications.count == 0 {
+            DispatchQueue.main.async { [weak self] in
                 self?.tableView.isHidden = true
                 self?.noNotificationLabel.isHidden = false
             }
-        })
-        
-        FirestoreManager.shared.fetchLike(id: id, completion: { [weak self] result in
-            switch result {
-            case .success(let likes):
-                print("likes: \(likes)")
-            case .failure(_):
-                print("Fetchlike failed")
+            
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.isHidden = false
+                self?.noNotificationLabel.isHidden = true
+                self?.tableView.reloadData()
             }
+        }
+    }
+    
+    private func fetchLike(id: String){
+        FirestoreManager.shared.fetchLikeForNotification(id: id, completion: { [weak self] result in
+            switch result {
+            
+            case .success(let likes):
+                self?.notifications += likes
+            case .failure(_):
+                print("fetchLikeForNotification failed")
+            }
+            
         })
     }
     
