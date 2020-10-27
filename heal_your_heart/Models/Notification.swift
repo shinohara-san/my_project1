@@ -14,4 +14,5 @@ struct Notification {
     var isRead: Bool
     var postId: String
     var postUserId: String
+    var type: String
 }

@@ -72,25 +72,20 @@ class NotificationViewController: UIViewController {
     }
     
     private func update(id: String){
-        FirestoreManager.shared.fetchNotification(id: id, completion: { [weak self] result in
-            switch result {
+        FirestoreManager.shared.fetchNotification(id: id, completion: { [weak self] notifications in
             
-            case .success(let notifications):
-                DispatchQueue.main.async {
-                    guard !notifications.isEmpty else {
-                        self?.tableView.isHidden = true
-                        self?.noNotificationLabel.isHidden = false
-                        return
-                    }
-                    self?.notifications = notifications
-                    DispatchQueue.main.async {
-                        self?.tableView.isHidden = false
-                        self?.noNotificationLabel.isHidden = true
-                        self?.tableView.reloadData()
-                    }
+            DispatchQueue.main.async {
+                guard !notifications.isEmpty else {
+                    self?.tableView.isHidden = true
+                    self?.noNotificationLabel.isHidden = false
+                    return
                 }
-            case .failure(_):
-                print("fail")
+                self?.notifications = notifications
+                DispatchQueue.main.async {
+                    self?.tableView.isHidden = false
+                    self?.noNotificationLabel.isHidden = true
+                    self?.tableView.reloadData()
+                }
             }
         })
     }

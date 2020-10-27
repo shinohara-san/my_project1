@@ -14,4 +14,10 @@ struct Like {
     var likeDate: Date
     var isRead: Bool
     var postUserId: String
+    var type: String
+}
+
+enum NotificationType {
+    case like
+    case comment
 }

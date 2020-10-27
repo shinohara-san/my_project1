@@ -53,7 +53,7 @@ class NotificationTableViewCell: UITableViewCell {
             switch result {
             case .success(let name):
                 DispatchQueue.main.async { [weak self] in
-                    self?.userCommentLabel.text = "\(name)さんがあなたの投稿にコメントしました。"
+                    self?.userCommentLabel.text = "\(name)さんがあなたの投稿に\(notification.type)しました。"
                 }
             case .failure(_):
                 print("getUserName error")

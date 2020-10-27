@@ -15,4 +15,5 @@ struct Comment {
     var postUserId: String
     var postId: String
     var commentUserId: String
+    var type: String
 }
