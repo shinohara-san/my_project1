@@ -10,7 +10,7 @@ import UIKit
 class SearchViewController: UIViewController {
     
     private let dataList = [
-        "人生について","恋愛について","仕事について","人間関係について",
+        "選択してください","人生について","恋愛について","仕事について","人間関係について",
         "自分について","その他"
     ]
     
@@ -87,7 +87,8 @@ class SearchViewController: UIViewController {
     @objc func done() {
         searchBar.endEditing(true)
         guard let keyword = searchBar.text,
-              !keyword.isEmpty else {
+              !keyword.isEmpty,
+              keyword != "選択してください" else {
             return
         }
         FirestoreManager.shared.searchPost(keyword: keyword, completion: {[weak self] result in

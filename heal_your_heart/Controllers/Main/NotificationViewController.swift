@@ -59,7 +59,6 @@ class NotificationViewController: UIViewController {
     }
     
     @objc private func didTapAllRead(){
-        //表示中のNotificationを全部取得 notifications
         for notification in notifications {
             FirestoreManager.shared.makeIsReadTrue(notification: notification, completion: { [weak self] result in
                 self?.update(id: notification.postUserId)
@@ -121,7 +120,6 @@ extension NotificationViewController: NotificationTableViewCellDelegate {
                 print("ok")
             }
         })
-//        FirestoreManager.shared.makeIsReadTrueForLike(likeId: notification.notificationId)
     }
     
     func moveToDetail(post: Post) {

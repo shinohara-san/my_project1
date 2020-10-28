@@ -10,6 +10,16 @@ import FirebaseAuth
 
 class LoginRegisterViewController: UIViewController {
     
+    private let genders = [
+        "男性","女性","その他"
+    ]
+    
+    
+    private let ages = [
+        "10代","20代","30代","40代",
+        "50代","60代"
+    ]
+    
     @IBOutlet weak var loginStackView: UIStackView!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
