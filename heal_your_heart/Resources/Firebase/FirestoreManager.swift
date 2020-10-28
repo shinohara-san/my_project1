@@ -284,16 +284,13 @@ final class FirestoreManager {
                         
                         notifications += comments
                         
-//                        print("返っていく配列だけどコメントしか入らずいいねが入らない...: \(notifications)") //commentのみ入ってる
                         completion(notifications)
                     }
             }
-        
-        
     }
     
     public func makeIsReadTrue(commentId: String){
-        //        let collectionNames = ["comments", "likes"] //でfor文
+        //let collectionNames = ["comments", "likes"] //でfor文
         
         let docRef = db.collection("comments").document(commentId)
         docRef.updateData([

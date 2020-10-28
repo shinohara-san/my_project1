@@ -28,10 +28,10 @@ class CommentTableViewCell: UITableViewCell {
         super.awakeFromNib()
         userImageLabel.image = UIImage(systemName: "person.circle")
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
     }
     
     public func configure(with comment: Comment){
@@ -41,8 +41,20 @@ class CommentTableViewCell: UITableViewCell {
         formatter.timeStyle = .short
         let dateString = formatter.string(from: comment.postDate)
         
+        FirestoreManager.shared.getUserNameForPost(id: comment.commentUserId, completion: { result in
+            switch result {
+            
+            case .success(let name):
+                DispatchQueue.main.async { [weak self] in
+                    self?.userNameLabel.text = name
+                }
+                
+            case .failure(_):
+                print("Failed to get comment username.")
+            }
+        })
+        
         DispatchQueue.main.async { [weak self] in
-            self?.userNameLabel.text = comment.commentUserId
             self?.commentLabel.text = comment.comment
             self?.dateLabel.text = dateString
             self?.userImageLabel.image = UIImage(systemName: "person.circle.fill")
