@@ -59,15 +59,12 @@ class NotificationViewController: UIViewController {
     }
     
     @objc private func didTapAllRead(){
-        //全てを既読にする処理をfirestoremanagerから
-        guard let id = UserDefaults.standard.value(forKey: "id") as? String else {
-            return 
+        //表示中のNotificationを全部取得 notifications
+        for notification in notifications {
+            FirestoreManager.shared.makeIsReadTrue(notification: notification, completion: { [weak self] result in
+                self?.update(id: notification.postUserId)
+            })
         }
-        FirestoreManager.shared.makeAllIsReadTrue(id: id, completion: { [weak self] result in
-            if result {
-                self?.update(id: id)
-            }
-        })
         
     }
     
@@ -118,8 +115,13 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
 }
 
 extension NotificationViewController: NotificationTableViewCellDelegate {
-    func renewIsRead(commentId: String) {
-        FirestoreManager.shared.makeIsReadTrue(commentId: commentId)
+    func renewIsRead(notification: Notification) {
+        FirestoreManager.shared.makeIsReadTrue(notification: notification, completion: { result in
+            if result {
+                print("ok")
+            }
+        })
+//        FirestoreManager.shared.makeIsReadTrueForLike(likeId: notification.notificationId)
     }
     
     func moveToDetail(post: Post) {

@@ -9,7 +9,7 @@ import UIKit
 
 protocol NotificationTableViewCellDelegate: AnyObject {
     func moveToDetail(post: Post)
-    func renewIsRead(commentId: String)
+    func renewIsRead(notification: Notification)
 }
 
 class NotificationTableViewCell: UITableViewCell {
@@ -96,7 +96,8 @@ class NotificationTableViewCell: UITableViewCell {
                 }
             })
             
-            delegate?.renewIsRead(commentId: notification.notificationId)
+            delegate?.renewIsRead(notification: notification)
+            
         }
     }
     
