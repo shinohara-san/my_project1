@@ -11,14 +11,16 @@ import FirebaseAuth
 class LoginRegisterViewController: UIViewController {
     
     private let genders = [
-        "男性","女性","その他"
+        "選択してください","男性","女性","その他"
     ]
-    
     
     private let ages = [
-        "10代","20代","30代","40代",
+        "選択してください","10代","20代","30代","40代",
         "50代","60代"
     ]
+    
+    private let pickerViewGender = UIPickerView()
+    private let pickerViewAge = UIPickerView()
     
     @IBOutlet weak var loginStackView: UIStackView!
     @IBOutlet weak var emailField: UITextField!
@@ -46,7 +48,55 @@ class LoginRegisterViewController: UIViewController {
         DispatchQueue.main.async {[weak self] in
             self?.imageView.layer.cornerRadius = 45.5
         }
+        
+        pickerViewGender.tag = 0
+        pickerViewGender.delegate = self
+        pickerViewAge.tag = 1
+        pickerViewAge.dataSource = self
+        
+//        setUpToolbar()
+        setUpGenderPickerView()
+        setUpAgePickerView()
     }
+//
+//    private func setUpToolbar(){
+//
+//        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
+//        let spacelItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+//        let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+//        toolbar.setItems([spacelItem, doneItem], animated: true)
+//
+//        genderRegister.inputView = toolbar
+//        ageRegister.inputView = toolbar
+//    }
+    
+    private func setUpGenderPickerView(){
+        pickerViewGender.frame = CGRect(x: 0, y: 0,
+                                        width: UIScreen.main.bounds.size.width,
+                                        height: pickerViewGender.bounds.size.height)
+        pickerViewGender.delegate = self
+        pickerViewGender.dataSource = self
+        
+        let customPicker = UIView(frame: pickerViewGender.bounds)
+        customPicker.backgroundColor = .systemGray6
+        customPicker.addSubview(pickerViewGender)
+        genderRegister.inputView = customPicker
+    }
+    
+    private func setUpAgePickerView(){
+        pickerViewAge.frame = CGRect(x: 0, y: 0,
+                                     width: UIScreen.main.bounds.size.width,
+                                     height: pickerViewAge.bounds.size.height)
+        pickerViewAge.delegate = self
+        pickerViewAge.dataSource = self
+        
+        let customPicker = UIView(frame: pickerViewAge.bounds)
+        customPicker.backgroundColor = .systemGray6
+        customPicker.addSubview(pickerViewAge)
+        ageRegister.inputView = customPicker
+    }
+    
+    @objc func done() {}
     
     @IBAction func didTapLogin(_ sender: Any) {
         guard let email = emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -74,6 +124,7 @@ class LoginRegisterViewController: UIViewController {
               let age = ageRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let gender = genderRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let nickname = nickNameRegister.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              ageRegister.text != "選択してください", genderRegister.text != "選択してください",
               !email.isEmpty, !password.isEmpty, !age.isEmpty, !gender.isEmpty, !nickname.isEmpty,
               password == checkedPassword else {
             alertUserLoginError(title: "エラー", message: "正しく情報を入力してください。")
@@ -187,5 +238,37 @@ extension LoginRegisterViewController: UINavigationControllerDelegate, UIImagePi
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil) //閉じるやつ
+    }
+}
+
+extension LoginRegisterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == 0 {
+            return genders.count
+        } else {
+            return ages.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView.tag == 0 {
+            return genders[row]
+        } else {
+            return ages[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView.tag == 0 {
+            genderRegister.text = genders[row]
+        } else {
+            ageRegister.text = ages[row]
+        }
+        
     }
 }
