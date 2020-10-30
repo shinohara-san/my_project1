@@ -10,6 +10,7 @@
 		3E7DFC2177CB862DAE93C28C /* Pods_heal_your_heart_heal_your_heartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE705BC3DCB0509751D3BA2 /* Pods_heal_your_heart_heal_your_heartUITests.framework */; };
 		51CDFA373D16A27C0A008465 /* Pods_heal_your_heartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 157F59941823312C7F76777C /* Pods_heal_your_heartTests.framework */; };
 		9533BE6F252C37D0005068DD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9533BE6E252C37D0005068DD /* ProfileViewController.swift */; };
+		953C373B254C03A60008DD7F /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953C373A254C03A60008DD7F /* EditViewController.swift */; };
 		9545219E2535D552005FB9B3 /* NoCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9545219C2535D552005FB9B3 /* NoCommentTableViewCell.swift */; };
 		9545219F2535D552005FB9B3 /* NoCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9545219D2535D552005FB9B3 /* NoCommentTableViewCell.xib */; };
 		954D2F092524283100405DEC /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D2F082524283100405DEC /* TimelineViewController.swift */; };
@@ -66,6 +67,7 @@
 		157F59941823312C7F76777C /* Pods_heal_your_heartTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_heal_your_heartTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE705BC3DCB0509751D3BA2 /* Pods_heal_your_heart_heal_your_heartUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_heal_your_heart_heal_your_heartUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9533BE6E252C37D0005068DD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		953C373A254C03A60008DD7F /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		9545219C2535D552005FB9B3 /* NoCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCommentTableViewCell.swift; sourceTree = "<group>"; };
 		9545219D2535D552005FB9B3 /* NoCommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoCommentTableViewCell.xib; sourceTree = "<group>"; };
 		954D2F082524283100405DEC /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				95D377FC2526E85800D22385 /* PostDetailViewController.swift */,
 				9533BE6E252C37D0005068DD /* ProfileViewController.swift */,
 				95FA16272540575500E755D7 /* MyPostViewController.swift */,
+				953C373A254C03A60008DD7F /* EditViewController.swift */,
 			);
 			path = Action;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 				95D378062526EB2300D22385 /* Post.swift in Sources */,
 				95F9961325273C27008FA3E5 /* NotificationTableViewCell.swift in Sources */,
 				95D377FD2526E85800D22385 /* PostDetailViewController.swift in Sources */,
+				953C373B254C03A60008DD7F /* EditViewController.swift in Sources */,
 				958A5C402528859F00F87BB5 /* StorageManager.swift in Sources */,
 				95C0231C252B0052006F536D /* LoginRegisterViewController.swift in Sources */,
 				95C6BC5325242340008B28AD /* AppDelegate.swift in Sources */,

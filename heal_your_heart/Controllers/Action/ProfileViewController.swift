@@ -50,4 +50,17 @@ class ProfileViewController: UIViewController {
         userImageView.layer.cornerRadius = 64
     }
     
+    @IBAction func didTapEditButton(_ sender: Any) {
+        //編集VCへ
+    }
+    
+    @IBAction func didTapLeaveMembership(_ sender: Any) {
+        let ac = UIAlertController(title: "退会します", message: "全てのデータが削除され、やり直しができません。", preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "退会する", style: .destructive, handler: { (value) in
+            //退会処理(Auth削除、firestore削除、storage削除、usedefault削除、ログイン画面へ移動)
+        }))
+        ac.addAction(UIAlertAction(title: "退会しない", style: .default, handler: nil))
+        present(ac, animated: true)
+    }
+    
 }

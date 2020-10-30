@@ -55,7 +55,6 @@ class PostViewController: UIViewController {
         ac.addAction(UIAlertAction(title: "入力を続ける", style: .cancel))
         present(ac, animated: true, completion: nil)
         
-        
     }
     
     @objc private func didTapPost(){
